@@ -83,9 +83,9 @@ public class GamingBoard {
     public void play(){
         do{
             nextPlayer();
-            System.out.println("Choose your position 1-9: ");
-            int choosenPosition = input.nextInt();
-            switch (choosenPosition){
+            System.out.println(currentPlayer.getName() + " Choose your position 1-9: ");
+            int chosenPosition = input.nextInt();
+            switch (chosenPosition){
                 case 1:
                     if(!checkPositionTaken(0,0)){
                         // create a player and get and set the sign.
