@@ -23,47 +23,56 @@ public class GamingBoard {
         }
 }
     /*
-        Creates players, asking user if playing against friend or computer
-
+        Creates players, asking user if playing against
+        friend or computer
      */
     public void setPlayers(){
         System.out.println("Want to play with:\n1.friend\nor\n2.computer?");
-        int opponent = input.nextInt();
-        input.nextLine();
-        if(opponent == 1){
-            Player player1 = new Player();
-            Player player2 = new Player();
-            System.out.println("Enter player1's name: ");
-            player1.setName(input.nextLine());
-            System.out.println("Ok "+player1.getName()+", lets choose a sign X or O?");
-            player1.setSign(input.next().charAt(0));
+        try{
+            int opponent = input.nextInt();
             input.nextLine();
-            System.out.println("Enter player2's name: ");
-            player2.setName(input.nextLine());
-            if(player1.getSign() == 'X' || player1.getSign() == 'x'){
-                player2.setSign('O');
+            if(opponent == 1){
+                Player player1 = new Player();
+                Player player2 = new Player();
+                System.out.println("Enter player1's name: ");
+                player1.setName(input.nextLine());
+                System.out.println("Ok "+player1.getName()+", lets choose a sign X or O?");
+                player1.setSign(input.next().charAt(0));
+                input.nextLine();
+                System.out.println("Enter player2's name: ");
+                player2.setName(input.nextLine());
+                if(player1.getSign() == 'X' || player1.getSign() == 'x'){
+                    player2.setSign('O');
+                }else{
+                    player2.setSign('X');
+                }
+                players.add(player1);
+                players.add(player2);
             }else{
-                player2.setSign('X');
+                Player player1 = new Player();
+                Player player2 = new Player();
+                System.out.println("Enter player1's name:");
+                player1.setName(input.nextLine());
+                player2.setName("Computer");
+                System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
+                player1.setSign(input.next().charAt(0));
+                input.nextLine();
+                if(player1.getSign() == 'X' || player1.getSign() == 'x'){
+                    player2.setSign('O');
+                }else{
+                    player2.setSign('X');
+                }
+                players.add(player1);
+                players.add(player2);
             }
-            players.add(player1);
-            players.add(player2);
-        }else{
-            Player player1 = new Player();
-            Player player2 = new Player();
-            System.out.println("Enter player1's name:");
-            player1.setName(input.nextLine());
-            player2.setName("Computer");
-            System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
-            player1.setSign(input.next().charAt(0));
-            input.nextLine();
-            if(player1.getSign() == 'X' || player1.getSign() == 'x'){
-                player2.setSign('O');
-            }else{
-                player2.setSign('X');
-            }
-            players.add(player1);
-            players.add(player2);
         }
+        catch(Exception e){
+            System.out.println("Wrong input, try again");
+            input.nextLine();
+            setPlayers();
+        }
+
+
     }
     //Changes current player to next player
     private Player nextPlayer(){
