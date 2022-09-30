@@ -14,8 +14,8 @@ public class GamingBoard {
             System.out.println();
         }
     }
-    private boolean checkPositionTaken(int choosenPosition ){
-        if(board[choosenPosition].equals('_') || board[choosenPosition].equals(' ')){
+    private boolean checkPositionTaken(int row,int column ){
+        if(board[row][column] == '_' || board[row][column] == ' '){
              return false;
         }else{
             System.out.println("Position already taken,take another..");
@@ -67,6 +67,9 @@ public class GamingBoard {
     }
     //Changes current player to next player
     private Player nextPlayer(){
+        if (currentPlayer == null){
+            currentPlayer = players.get(0);
+        }
         if(currentPlayer.getName().equals(players.get(0).getName())){
             return players.get(1);
         }else{
@@ -79,78 +82,78 @@ public class GamingBoard {
      */
     public void play(){
         do{
-            // get player here
+            nextPlayer();
             System.out.println("Choose your position 1-9: ");
             int choosenPosition = input.nextInt();
             switch (choosenPosition){
                 case 1:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(0,0)){
                         // create a player and get and set the sign.
-                        //board[0][0] = player.getSign();
+                        board[0][0] = currentPlayer.getSign();
                        // prints the current board
                         printBoard();
                     }
                     break;
                 case 2:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(0,2)){
                         // create a player and get and set the sign.
-                        //board[0][1] = player.getSign();
+                        board[0][2] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
                     break;
                 case 3:
-                    if(!checkPositionTaken(choosenPosition)){
-                        // create a player and get and set the sign.
-                        //board[0][2] = player.getSign();
-                        // prints the current board
+                    if(!checkPositionTaken(0,4)){
+                        //create a player and get and set the sign.
+                        board[0][4] = currentPlayer.getSign();
+                        //prints the current board
                         printBoard();
                     }
                     break;
                 case 4:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(1,0)){
                         // create a player and get and set the sign.
-                        //board[1][0] = player.getSign();
+                        board[1][0] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
                     break;
                 case 5:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(1,2)){
                         // create a player and get and set the sign.
-                        //board[1][1] = player.getSign();
+                        board[1][2] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
                     break;
                 case 6:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(1,4)){
                         // create a player and get and set the sign.
-                        //board[1][2] = player.getSign();
+                        board[1][4] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
                     break;
                 case 7:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(2,0)){
                         // create a player and get and set the sign.
-                        //board[2][0] = player.getSign();
+                        board[2][0] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
                     break;
                 case 8:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(2,2)){
                         // create a player and get and set the sign.
-                        //board[2][1] = player.getSign();
+                        board[2][2] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
                     break;
                 case 9:
-                    if(!checkPositionTaken(choosenPosition)){
+                    if(!checkPositionTaken(2,4)){
                         // create a player and get and set the sign.
-                        //board[2][2] = player.getSign();
+                        board[2][4] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
                     }
