@@ -6,6 +6,7 @@ public class GamingBoard {
     boolean gameContinue = true;
     Player currentPlayer;
     ArrayList<Player> players = new ArrayList<Player>();
+    Boolean positionFree = true;
     public void printBoard(){
         for(char[] gb : board){
             for(char g: gb){
@@ -14,12 +15,12 @@ public class GamingBoard {
             System.out.println();
         }
     }
-    private boolean checkPositionTaken(int row,int column ){
+    private boolean isPositionFree(int row, int column ){
         if(board[row][column] == '_' || board[row][column] == ' '){
-             return false;
+             return true;
         }else{
             System.out.println("Position already taken,take another..");
-            return true;
+            return false;
         }
 }
     /*
@@ -77,7 +78,7 @@ public class GamingBoard {
     //Changes current player to next player
     private Player nextPlayer(){
         if (currentPlayer == null){
-            currentPlayer = players.get(0);
+            return players.get(0);
         }
         if(currentPlayer.getName().equals(players.get(0).getName())){
             return players.get(1);
@@ -91,12 +92,15 @@ public class GamingBoard {
      */
     public void play(){
         do{
-            nextPlayer();
+            if(positionFree){
+                currentPlayer = nextPlayer();
+            }
             System.out.println(currentPlayer.getName() + " Choose your position 1-9: ");
             int chosenPosition = input.nextInt();
             switch (chosenPosition){
                 case 1:
-                    if(!checkPositionTaken(0,0)){
+                    positionFree = isPositionFree(0,0);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[0][0] = currentPlayer.getSign();
                        // prints the current board
@@ -104,7 +108,8 @@ public class GamingBoard {
                     }
                     break;
                 case 2:
-                    if(!checkPositionTaken(0,2)){
+                    positionFree = isPositionFree(0,2);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[0][2] = currentPlayer.getSign();
                         // prints the current board
@@ -112,7 +117,8 @@ public class GamingBoard {
                     }
                     break;
                 case 3:
-                    if(!checkPositionTaken(0,4)){
+                    positionFree = isPositionFree(0,4);
+                    if(positionFree){
                         //create a player and get and set the sign.
                         board[0][4] = currentPlayer.getSign();
                         //prints the current board
@@ -120,7 +126,8 @@ public class GamingBoard {
                     }
                     break;
                 case 4:
-                    if(!checkPositionTaken(1,0)){
+                    positionFree = isPositionFree(1,0);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[1][0] = currentPlayer.getSign();
                         // prints the current board
@@ -128,7 +135,8 @@ public class GamingBoard {
                     }
                     break;
                 case 5:
-                    if(!checkPositionTaken(1,2)){
+                    positionFree = isPositionFree(1,2);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[1][2] = currentPlayer.getSign();
                         // prints the current board
@@ -136,7 +144,8 @@ public class GamingBoard {
                     }
                     break;
                 case 6:
-                    if(!checkPositionTaken(1,4)){
+                    positionFree = isPositionFree(1,4);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[1][4] = currentPlayer.getSign();
                         // prints the current board
@@ -144,7 +153,8 @@ public class GamingBoard {
                     }
                     break;
                 case 7:
-                    if(!checkPositionTaken(2,0)){
+                    positionFree = isPositionFree(2,0);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[2][0] = currentPlayer.getSign();
                         // prints the current board
@@ -152,7 +162,8 @@ public class GamingBoard {
                     }
                     break;
                 case 8:
-                    if(!checkPositionTaken(2,2)){
+                    positionFree = isPositionFree(2,2);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[2][2] = currentPlayer.getSign();
                         // prints the current board
@@ -160,7 +171,8 @@ public class GamingBoard {
                     }
                     break;
                 case 9:
-                    if(!checkPositionTaken(2,4)){
+                    positionFree = isPositionFree(2,4);
+                    if(positionFree){
                         // create a player and get and set the sign.
                         board[2][4] = currentPlayer.getSign();
                         // prints the current board
@@ -169,10 +181,9 @@ public class GamingBoard {
                     break;
                 default:
                     System.out.println("Enter a valid number: ");
+                    positionFree = false;
                     break;
-
             }
-              currentPlayer = nextPlayer();
         }while(gameContinue);
     }
 }
