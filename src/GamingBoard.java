@@ -7,6 +7,14 @@ public class GamingBoard {
     Player currentPlayer;
     ArrayList<Player> players = new ArrayList<Player>();
     Boolean positionFree = true;
+    private int chosenPosition = 0;
+    int boardSize = 9;
+    private int playedTurns = 0;
+
+    public char[][] getNewBoard(){
+        char[][] newBoard = {{'_','|','_','|','_'},{'_','|','_','|','_'},{' ','|',' ','|',' '}};
+        return newBoard;
+    }
     public void printBoard(){
         for(char[] gb : board){
             for(char g: gb){
@@ -32,8 +40,8 @@ public class GamingBoard {
         try{
             int opponent = input.nextInt();
             input.nextLine();
+            Player player1 = new Player();
             if(opponent == 1){
-                Player player1 = new Player();
                 Player player2 = new Player();
                 System.out.println("Enter player1's name: ");
                 player1.setName(input.nextLine());
@@ -50,23 +58,29 @@ public class GamingBoard {
                 players.add(player1);
                 players.add(player2);
             }else{
-                Player player1 = new Player();
-                Player player2 = new Player();
+                Computer computer = new Computer();
                 System.out.println("Enter player1's name:");
                 player1.setName(input.nextLine());
-                player2.setName("Computer");
+                computer.setName("Computer");
+                System.out.println("Select computer difficulty level. 1.Easy\n2.Medium\n3.Hard");
+                int difficultyLevel = input.nextInt();
+                input.nextLine();
+                computer.setComputerDifficultyLevel(difficultyLevel);
                 System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
                 player1.setSign(input.next().charAt(0));
                 input.nextLine();
                 if(player1.getSign() == 'X' || player1.getSign() == 'x'){
-                    player2.setSign('O');
+                    computer.setSign('O');
                 }else{
-                    player2.setSign('X');
+                    computer.setSign('X');
                 }
                 players.add(player1);
-                players.add(player2);
+                players.add(computer);
             }
+
+
         }
+        //Handles exception prints message to user
         catch(Exception e){
             System.out.println("Wrong input, try again");
             input.nextLine();
@@ -94,9 +108,14 @@ public class GamingBoard {
         do{
             if(positionFree){
                 currentPlayer = nextPlayer();
+                playedTurns++;
             }
             System.out.println(currentPlayer.getName() + " Choose your position 1-9: ");
-            int chosenPosition = input.nextInt();
+            if(currentPlayer.getName().equals("Computer")){
+                chosenPosition = currentPlayer.ComputerTurn();
+            }else{
+                chosenPosition = input.nextInt();
+            }
             switch (chosenPosition){
                 case 1:
                     positionFree = isPositionFree(0,0);
@@ -184,6 +203,14 @@ public class GamingBoard {
                     positionFree = false;
                     break;
             }
-        }while(gameContinue);
+        }while(playedTurns < boardSize);
+    }
+    //Reset the gamingboard and other variables that need to be reset to play again.
+    public void resetGame(){
+        board = getNewBoard();
+        positionFree = true;
+        playedTurns = 0;
+        currentPlayer = null;
+        chosenPosition = 0;
     }
 }

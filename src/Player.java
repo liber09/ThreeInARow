@@ -27,4 +27,7 @@ public class Player {
         public int getNumberOfWins(){
             return numberOfWins;
         }
+        public int ComputerTurn(){
+            return 0;
+        }
     }
