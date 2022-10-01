@@ -27,7 +27,7 @@ public class Player {
         public int getNumberOfWins(){
             return numberOfWins;
         }
-        public int ComputerTurn(){
+        public int ComputerTurn(char[][] board, int playedTurns, char sign){
             return 0;
         }
         public void setLastSelectedNumber(int number){

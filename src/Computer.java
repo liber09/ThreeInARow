@@ -36,15 +36,18 @@ public class Computer extends Player{
     chosen difficulty level the computer randomizes in the easiest
     and has an improved AI in medium and even more improved in Hard.
      */
-    public int ComputerTurn(){
+    public int ComputerTurn(char[][] currentBoard, int playedTurns, char sign){
         if (getComputerDifficultyLevel() == 1){
             return rnd.nextInt(9)+1;
         }
         if(getComputerDifficultyLevel() == 2){
-            if(lastSelectedNumber == 0){
+            if(getLastSelectedNumber( )== 0){
                 return rnd.nextInt(9)+1;
             }
-            return bestComputerMoveLev2(lastSelectedNumber);
+            return bestComputerMoveLev2(getLastSelectedNumber());
+        }
+        if(getComputerDifficultyLevel() == 3){
+            return bestComputerMoveLev3(currentBoard, playedTurns, sign);
         }
         return 0;
     }
@@ -139,5 +142,93 @@ public class Computer extends Player{
             default:
                 return 0;
         }
+    }
+    private int bestComputerMoveLev3(char[][] currentBoard, int playedTurns, char sign){
+        int rndTempNr;
+        int numberToWin;
+        //Best position is middle so begin by returning 5
+        if(!triedNumbers.contains(5)){
+            triedNumbers.add(5);
+            return 5;
+        }
+        //second best are corners so try those
+        if(playedTurns <= 2){
+            if(triedNumbers.contains(1) && triedNumbers.contains(3) && triedNumbers.contains(7) &&triedNumbers.contains(9)){
+                return rnd.nextInt(9) + 1;
+            }
+            do {
+                rndTempNr = rnd.nextInt(9) + 1;
+            } while (rndTempNr == 5 || rndTempNr == 2 || rndTempNr == 4 || rndTempNr == 6 || rndTempNr == 8);
+            triedNumbers.add(rndTempNr);
+            return rndTempNr;
+        }else{
+            //First see if computer can win game
+            numberToWin = checkIfComputerCanWin(currentBoard);
+        }
+        return numberToWin;
+    }
+
+    private int checkIfComputerCanWin(char[][] currentBoard){
+        int winningPosition = 0;
+        //Vertical checking
+        if(currentBoard[0][0] == this.getSign() && currentBoard[0][2] == this.getSign() && currentBoard[0][4] == '_'){
+            winningPosition = 3;
+        } else if (currentBoard[0][0] == this.getSign() && currentBoard[0][4] == this.getSign() && currentBoard[0][2] == '_') {
+            winningPosition = 2;
+        }else if (currentBoard[0][2] == this.getSign() && currentBoard[0][4] == this.getSign() && currentBoard[0][0] == '_') {
+            winningPosition = 1;
+        }
+        if(currentBoard[1][0] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[1][4] == '_'){
+            winningPosition = 6;
+        } else if (currentBoard[1][0] == this.getSign() && currentBoard[1][4] == this.getSign() && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == this.getSign() && currentBoard[1][4] == this.getSign() && currentBoard[1][0] == '_') {
+            winningPosition = 4;
+        }
+        if(currentBoard[2][0] == this.getSign() && currentBoard[2][2] == this.getSign() && currentBoard[2][4] == ' '){
+            winningPosition = 9;
+        } else if (currentBoard[2][0] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[2][2] == ' ') {
+            winningPosition = 8;
+        }else if (currentBoard[2][2] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[2][0] == ' ') {
+            winningPosition = 7;
+        }
+        //Horizontal checking
+        if(currentBoard[0][0] == this.getSign() && currentBoard[1][0] == this.getSign() && currentBoard[2][0] == ' '){
+            winningPosition = 7;
+        } else if (currentBoard[0][0] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[1][0] == '_') {
+            winningPosition = 4;
+        }else if (currentBoard[1][0] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[0][0] == '_') {
+            winningPosition = 1;
+        }
+        if(currentBoard[0][2] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[2][2] == ' '){
+            winningPosition = 8;
+        } else if (currentBoard[0][2] == this.getSign() && currentBoard[2][2] == this.getSign() && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == this.getSign() && currentBoard[2][2] == this.getSign() && currentBoard[0][2] == '_') {
+            winningPosition = 2;
+        }
+        if(currentBoard[0][4] == this.getSign() && currentBoard[1][4] == this.getSign() && currentBoard[2][4] == ' '){
+            winningPosition = 9;
+        } else if (currentBoard[0][4] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[1][4] == '_') {
+            winningPosition = 6;
+        }else if (currentBoard[1][4] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[0][4] == '_') {
+            winningPosition = 3;
+        }
+        //DiagonalChecking
+        if(currentBoard[0][0] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[2][4] == ' '){
+            winningPosition = 9;
+        } else if (currentBoard[0][0] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[0][0] == '_') {
+            winningPosition = 1;
+        }
+        if(currentBoard[0][4] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[2][0] == ' '){
+            winningPosition = 7;
+        } else if (currentBoard[0][4] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[0][4] == '_') {
+            winningPosition = 3;
+        }
+        return winningPosition;
     }
 }

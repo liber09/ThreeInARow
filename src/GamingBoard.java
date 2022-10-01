@@ -112,7 +112,7 @@ public class GamingBoard {
             }
             System.out.println(currentPlayer.getName() + " Choose your position 1-9: ");
             if(currentPlayer.getName().equals("Computer")){
-                chosenPosition = currentPlayer.ComputerTurn();
+                chosenPosition = currentPlayer.ComputerTurn(board, playedTurns, players.get(0).getSign());
             }else{
                 chosenPosition = input.nextInt();
             }
