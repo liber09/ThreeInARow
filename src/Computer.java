@@ -145,7 +145,8 @@ public class Computer extends Player{
     }
     private int bestComputerMoveLev3(char[][] currentBoard, int playedTurns, char sign){
         int rndTempNr;
-        int numberToWin;
+        int numberToWin = 0;
+        int numberToBlock = 0;
         //Best position is middle so begin by returning 5
         if(!triedNumbers.contains(5)){
             triedNumbers.add(5);
@@ -164,8 +165,79 @@ public class Computer extends Player{
         }else{
             //First see if computer can win game
             numberToWin = checkIfComputerCanWin(currentBoard);
+            if (numberToWin != 0){
+                return numberToWin;
+            }
+            numberToBlock = checkIfOpponentCanWin(currentBoard,sign);
+            if(numberToBlock != 0){
+                return numberToBlock;
+            }
+            return rnd.nextInt(9) + 1;
         }
-        return numberToWin;
+    }
+
+    private int checkIfOpponentCanWin(char[][] currentBoard, char player1Sign) {
+        int winningPosition = 0;
+        //Vertical checking
+        if(currentBoard[0][0] == player1Sign && currentBoard[0][2] == player1Sign && currentBoard[0][4] == '_'){
+            winningPosition = 3;
+        } else if (currentBoard[0][0] == player1Sign && currentBoard[0][4] == player1Sign && currentBoard[0][2] == '_') {
+            winningPosition = 2;
+        }else if (currentBoard[0][2] == player1Sign && currentBoard[0][4] == player1Sign && currentBoard[0][0] == '_') {
+            winningPosition = 1;
+        }
+        if(currentBoard[1][0] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[1][4] == '_'){
+            winningPosition = 6;
+        } else if (currentBoard[1][0] == player1Sign && currentBoard[1][4] == player1Sign && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == player1Sign && currentBoard[1][4] == player1Sign && currentBoard[1][0] == '_') {
+            winningPosition = 4;
+        }
+        if(currentBoard[2][0] == player1Sign && currentBoard[2][2] == player1Sign && currentBoard[2][4] == ' '){
+            winningPosition = 9;
+        } else if (currentBoard[2][0] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[2][2] == ' ') {
+            winningPosition = 8;
+        }else if (currentBoard[2][2] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[2][0] == ' ') {
+            winningPosition = 7;
+        }
+        //Horizontal checking
+        if(currentBoard[0][0] == player1Sign && currentBoard[1][0] == player1Sign && currentBoard[2][0] == ' '){
+            winningPosition = 7;
+        } else if (currentBoard[0][0] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[1][0] == '_') {
+            winningPosition = 4;
+        }else if (currentBoard[1][0] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[0][0] == '_') {
+            winningPosition = 1;
+        }
+        if(currentBoard[0][2] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[2][2] == ' '){
+            winningPosition = 8;
+        } else if (currentBoard[0][2] == player1Sign && currentBoard[2][2] == player1Sign && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == player1Sign && currentBoard[2][2] == player1Sign && currentBoard[0][2] == '_') {
+            winningPosition = 2;
+        }
+        if(currentBoard[0][4] == player1Sign && currentBoard[1][4] == player1Sign && currentBoard[2][4] == ' '){
+            winningPosition = 9;
+        } else if (currentBoard[0][4] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[1][4] == '_') {
+            winningPosition = 6;
+        }else if (currentBoard[1][4] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[0][4] == '_') {
+            winningPosition = 3;
+        }
+        //DiagonalChecking
+        if(currentBoard[0][0] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[2][4] == ' '){
+            winningPosition = 9;
+        } else if (currentBoard[0][0] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[0][0] == '_') {
+            winningPosition = 1;
+        }
+        if(currentBoard[0][4] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[2][0] == ' '){
+            winningPosition = 7;
+        } else if (currentBoard[0][4] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[1][2] == '_') {
+            winningPosition = 5;
+        }else if (currentBoard[1][2] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[0][4] == '_') {
+            winningPosition = 3;
+        }
+        return winningPosition;
     }
 
     private int checkIfComputerCanWin(char[][] currentBoard){
