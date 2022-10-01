@@ -10,6 +10,7 @@ public class GamingBoard {
     private int chosenPosition = 0;
     int boardSize = 9;
     private int playedTurns = 0;
+    private Boolean hasAWinner = false;
 
     public char[][] getNewBoard(){
         char[][] newBoard = {{'_','|','_','|','_'},{'_','|','_','|','_'},{' ','|',' ','|',' '}};
@@ -62,7 +63,7 @@ public class GamingBoard {
                 System.out.println("Enter player1's name:");
                 player1.setName(input.nextLine());
                 computer.setName("Computer");
-                System.out.println("Select computer difficulty level. 1.Easy\n2.Medium\n3.Hard");
+                System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
                 int difficultyLevel = input.nextInt();
                 input.nextLine();
                 computer.setComputerDifficultyLevel(difficultyLevel);
@@ -230,14 +231,18 @@ public class GamingBoard {
                     positionFree = false;
                     break;
             }
-        }while(playedTurns < boardSize);
+            if (playedTurns > 4){
+                hasAWinner = Winner.gameHasAWinner(board,players,playedTurns);
+            }
+        }while((playedTurns < boardSize) && !hasAWinner);
     }
-    //Reset the gamingboard and other variables that need to be reset to play again.
+    //Reset the gaming-board and other variables that need to be reset to play again.
     public void resetGame(){
         board = getNewBoard();
         positionFree = true;
         playedTurns = 0;
         currentPlayer = null;
         chosenPosition = 0;
+        hasAWinner = false;
     }
 }

@@ -20,7 +20,7 @@ public class Player {
             return this.sign;
         }
         //Sets the number of wins
-        public void setNumberOfWins(){
+        public void addNumberOfWins(){
             numberOfWins++;
         }
         //returns the number of wins
