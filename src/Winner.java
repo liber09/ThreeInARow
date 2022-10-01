@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Winner {
-
+    static int numberOfRoundsPlayed = 0;
     public static boolean gameHasAWinner(char[][] currentBoard, ArrayList<Player> players, int playedTurns){
         boolean hasAWinner = false;
         if((currentBoard[0][0] == players.get(0).getSign() && currentBoard[0][2] == players.get(0).getSign() && currentBoard[0][4] == players.get(0).getSign()) ||
@@ -35,6 +35,16 @@ public class Winner {
         if(!hasAWinner && playedTurns == 9){
             System.out.println("This game was a tie!");
         }
+        if(hasAWinner || playedTurns == 9){
+            numberOfRoundsPlayed++;
+            ArrayList<String> print = new ArrayList<>();
+            int tieRounds = numberOfRoundsPlayed-players.get(0).getNumberOfWins()-players.get(1).getNumberOfWins();
+            print.add("Results after " + numberOfRoundsPlayed + " played rounds\n" + players.get(0).getName() + "\t" + players.get(1).getName()+ "\n"+
+            "  " + players.get(0).getNumberOfWins() + "        " + players.get(1).getNumberOfWins()+"\n"+
+            "Number of rounds that has ended in a tie: "+tieRounds);
+            System.out.println(print);
+        }
+
         return hasAWinner;
     }
 }
