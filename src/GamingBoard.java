@@ -124,6 +124,9 @@ public class GamingBoard {
                         board[0][0] = currentPlayer.getSign();
                        // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(1);
+                        }
                     }
                     break;
                 case 2:
@@ -133,6 +136,9 @@ public class GamingBoard {
                         board[0][2] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(2);
+                        }
                     }
                     break;
                 case 3:
@@ -142,6 +148,9 @@ public class GamingBoard {
                         board[0][4] = currentPlayer.getSign();
                         //prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(3);
+                        }
                     }
                     break;
                 case 4:
@@ -151,6 +160,9 @@ public class GamingBoard {
                         board[1][0] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(4);
+                        }
                     }
                     break;
                 case 5:
@@ -160,6 +172,9 @@ public class GamingBoard {
                         board[1][2] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(5);
+                        }
                     }
                     break;
                 case 6:
@@ -169,6 +184,9 @@ public class GamingBoard {
                         board[1][4] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(6);
+                        }
                     }
                     break;
                 case 7:
@@ -178,6 +196,9 @@ public class GamingBoard {
                         board[2][0] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(7);
+                        }
                     }
                     break;
                 case 8:
@@ -187,6 +208,9 @@ public class GamingBoard {
                         board[2][2] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(8);
+                        }
                     }
                     break;
                 case 9:
@@ -196,6 +220,9 @@ public class GamingBoard {
                         board[2][4] = currentPlayer.getSign();
                         // prints the current board
                         printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedNumber(9);
+                        }
                     }
                     break;
                 default:

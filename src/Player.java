@@ -30,4 +30,7 @@ public class Player {
         public int ComputerTurn(){
             return 0;
         }
+        public void setLastSelectedNumber(int number){
+
+        }
     }
