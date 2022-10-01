@@ -245,4 +245,8 @@ public class GamingBoard {
         chosenPosition = 0;
         hasAWinner = false;
     }
+    public void resetPlayers(){
+        players.clear();
+    }
+
 }
