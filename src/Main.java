@@ -3,11 +3,13 @@ public class Main {
     static Scanner input = new Scanner(System.in);
     static String continueGame = "";
     public static void main(String[] args) {
-        GamingBoard gamingBoard = new GamingBoard();
+
+        IGamingBoard gamingBoard = new ExtendableGamingBoard();
+        gamingBoard.printBoard(9);
         gamingBoard.setPlayers();
-        gamingBoard.printBoard();
+        //gamingBoard.printBoard();
         do{
-            gamingBoard.play();
+            //gamingBoard.play();
             gamingBoard.resetGame();
             System.out.println("Do you want to play again?\nY.Yes\nN.No");
             continueGame = input.nextLine();
@@ -24,7 +26,7 @@ public class Main {
                     continueGame = "y";
                 }
             }
-            gamingBoard.printBoard();
+            //gamingBoard.printBoard();
         }while(continueGame.equalsIgnoreCase("y"));
 
     }

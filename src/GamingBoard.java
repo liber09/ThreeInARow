@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-public class GamingBoard {
+public class GamingBoard implements IGamingBoard{
     Scanner input = new Scanner(System.in);
     char[][] board = {{'_','|','_','|','_'},{'_','|','_','|','_'},{' ','|',' ','|',' '}};
     boolean gameContinue = true;
@@ -16,6 +16,12 @@ public class GamingBoard {
         char[][] newBoard = {{'_','|','_','|','_'},{'_','|','_','|','_'},{' ','|',' ','|',' '}};
         return newBoard;
     }
+
+    @Override
+    public void printBoard(int boardSize) {
+
+    }
+
     public void printBoard(){
         for(char[] gb : board){
             for(char g: gb){
@@ -24,7 +30,7 @@ public class GamingBoard {
             System.out.println();
         }
     }
-    private boolean isPositionFree(int row, int column ){
+    public boolean isPositionFree(int row, int column ){
         if(board[row][column] == '_' || board[row][column] == ' '){
              return true;
         }else{
@@ -91,7 +97,7 @@ public class GamingBoard {
 
     }
     //Changes current player to next player
-    private Player nextPlayer(){
+    public Player nextPlayer(){
         if (currentPlayer == null){
             return players.get(0);
         }
@@ -100,6 +106,11 @@ public class GamingBoard {
         }else{
             return players.get(0);
         }
+    }
+
+    @Override
+    public void Play() {
+
     }
 
     /*
