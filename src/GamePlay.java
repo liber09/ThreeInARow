@@ -103,8 +103,8 @@ public class GamePlay {
                     }
                 }
             if (playedTurns > 4){
-                hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,playedTurns);
+                hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players,playedTurns);
             }
-        }while((playedTurns < boardSize) && !hasAWinner);
+        }while((playedTurns < gamingBoard.getSize()) && !hasAWinner);
     }
 }
