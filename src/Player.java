@@ -1,6 +1,6 @@
 public class Player {
     String name = "";
-    char sign = ' ';
+    String sign = " ";
     int numberOfWins = 0;
 
     //Set name of player
@@ -12,11 +12,11 @@ public class Player {
         return this.name;
     }
         //Set players sign
-        public void setSign(char sign){
-            this.sign = sign;
+        public void setSign(String sign){
+            this.sign = sign+" | ";
         }
         //return players sign
-        public char getSign(){
+        public String getSign(){
             return this.sign;
         }
         //Sets the number of wins
@@ -27,10 +27,10 @@ public class Player {
         public int getNumberOfWins(){
             return numberOfWins;
         }
-        public int ComputerTurn(char[][] board, int playedTurns, char sign){
-            return 0;
+        public String ComputerTurn(ExtendableGamingBoard board, int playedTurns, String sign){
+            return "A0B0";
         }
-        public void setLastSelectedNumber(int number){
+        public void setLastSelectedPosition(String position){
 
         }
     }

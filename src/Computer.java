@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Computer extends Player{
     private int computerDifficultyLevel;
-    private int lastSelectedNumber;
+    private String lastSelectedPosition;
     private Random rnd = new Random();
     private ArrayList<Integer> triedNumbers = new ArrayList<Integer>();
 
@@ -23,12 +23,12 @@ public class Computer extends Player{
         because we store each attempted number to avoid an infinite loop where no
         possible numbers are left for the computer.
      */
-    public void setLastSelectedNumber(int lastSelectedNumber){
-        this.lastSelectedNumber = lastSelectedNumber;
+    public void setLastSelectedPosition(String lastSelectedPosition){
+        this.lastSelectedPosition = lastSelectedPosition;
         triedNumbers.clear();
     }
-    public int getLastSelectedNumber(){
-        return lastSelectedNumber;
+    public String getLastSelectedPosition(){
+        return lastSelectedPosition;
     }
 
     /*
@@ -36,28 +36,28 @@ public class Computer extends Player{
     chosen difficulty level the computer randomizes in the easiest
     and has an improved AI in medium and even more improved in Hard.
      */
-    public int ComputerTurn(char[][] currentBoard, int playedTurns, char sign){
+    public String ComputerTurn(ExtendableGamingBoard currentBoard, int playedTurns, String sign){
         if (getComputerDifficultyLevel() == 1){
-            return rnd.nextInt(9)+1;
+            return "A"+rnd.nextInt(currentBoard.getSize())+"B"+rnd.nextInt(currentBoard.getSize());
         }
         if(getComputerDifficultyLevel() == 2){
-            if(getLastSelectedNumber( )== 0){
-                return rnd.nextInt(9)+1;
+            if(getLastSelectedPosition().equals("")){
+                return "A"+rnd.nextInt(currentBoard.getSize())+"B"+rnd.nextInt(currentBoard.getSize());
             }
-            return bestComputerMoveLev2(getLastSelectedNumber());
+            //return bestComputerMoveLev2(getLastSelectedPosition());
         }
-        if(getComputerDifficultyLevel() == 3){
-            return bestComputerMoveLev3(currentBoard, playedTurns, sign);
-        }
-        return 0;
+        //if(getComputerDifficultyLevel() == 3){
+        //    return bestComputerMoveLev3(currentBoard, playedTurns, sign);
+        //}
+        return "A0B0";
     }
     /*
         This method calculates which positions that
         are next to the last one the computer selected.
      */
-    private int bestComputerMoveLev2(int lastSelectedNumber){
+    private int bestComputerMoveLev2(String lastSelectedNumber){
         int rndTempNr;
-        switch (lastSelectedNumber) {
+        switch (rndTempNr) {
             //1 = top left corner. that means 2, 4 or 5 are
             //possible best options for next move.
             // but a random function makes the choice so that

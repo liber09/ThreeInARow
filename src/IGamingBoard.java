@@ -1,6 +1,6 @@
 public interface IGamingBoard {
-    public char[][] getNewBoard();
-    public void printBoard(int boardSize);
+    public String[][] getNewBoard(int boardSize);
+    public void printBoard();
     public boolean isPositionFree(int row, int column);
     public void setPlayers();
     public Player nextPlayer();

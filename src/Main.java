@@ -3,11 +3,9 @@ public class Main {
     static Scanner input = new Scanner(System.in);
     static String continueGame = "";
     public static void main(String[] args) {
-        Menu.printStartMenu();
-        IGamingBoard gamingBoard = new ExtendableGamingBoard(12);
-        //gamingBoard.printBoard(12);
-        //gamingBoard.setPlayers();
-        //gamingBoard.printBoard();
+        IGamingBoard gamingBoard = Menu.printStartMenu();
+        GamePlay.setPlayers();
+        gamingBoard.printBoard();
         do{
             //gamingBoard.play();
             gamingBoard.resetGame();

@@ -1,12 +1,142 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-public class GamingBoard implements IGamingBoard{
+public class GamingBoard{
     Scanner input = new Scanner(System.in);
     char[][] board = {{'_','|','_','|','_'},{'_','|','_','|','_'},{' ','|',' ','|',' '}};
     boolean gameContinue = true;
     Player currentPlayer;
     ArrayList<Player> players = new ArrayList<Player>();
-    Boolean positionFree = true;
+    public void play(){
+        do{
+            if(positionFree){
+                currentPlayer = nextPlayer();
+                playedTurns++;
+            }
+            System.out.println(currentPlayer.getName() + " Choose your position 1-9: ");
+            if(currentPlayer.getName().equals("Computer")){
+                chosenPosition = currentPlayer.ComputerTurn(board, playedTurns, players.get(0).getSign());
+            }else{
+                chosenPosition = input.nextInt();
+            }
+            switch (chosenPosition){
+                case 1:
+                    positionFree = isPositionFree(0,0);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[0][0] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(1);
+                        }
+                    }
+                    break;
+                case 2:
+                    positionFree = isPositionFree(0,2);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[0][2] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(2);
+                        }
+                    }
+                    break;
+                case 3:
+                    positionFree = isPositionFree(0,4);
+                    if(positionFree){
+                        //create a player and get and set the sign.
+                        board[0][4] = currentPlayer.getSign();
+                        //prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(3);
+                        }
+                    }
+                    break;
+                case 4:
+                    positionFree = isPositionFree(1,0);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[1][0] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(4);
+                        }
+                    }
+                    break;
+                case 5:
+                    positionFree = isPositionFree(1,2);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[1][2] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(5);
+                        }
+                    }
+                    break;
+                case 6:
+                    positionFree = isPositionFree(1,4);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[1][4] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(6);
+                        }
+                    }
+                    break;
+                case 7:
+                    positionFree = isPositionFree(2,0);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[2][0] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(7);
+                        }
+                    }
+                    break;
+                case 8:
+                    positionFree = isPositionFree(2,2);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[2][2] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(8);
+                        }
+                    }
+                    break;
+                case 9:
+                    positionFree = isPositionFree(2,4);
+                    if(positionFree){
+                        // create a player and get and set the sign.
+                        board[2][4] = currentPlayer.getSign();
+                        // prints the current board
+                        printBoard();
+                        if(currentPlayer.getName().equals("Computer")){
+                            currentPlayer.setLastSelectedPosition(9);
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("Enter a valid number: ");
+                    positionFree = false;
+                    break;
+            }
+            if (playedTurns > 4){
+                hasAWinner = Winner.gameHasAWinner(board,players,playedTurns);
+            }
+        }while((playedTurns < boardSize) && !hasAWinner);
+    }
     private int chosenPosition = 0;
     int boardSize = 9;
     private int playedTurns = 0;
@@ -24,7 +154,7 @@ public class GamingBoard implements IGamingBoard{
 
     public void printBoard(){
         for(char[] gb : board){
-            for(char g: gb){
+                   for(char g: gb){
                System.out.print(g);
             }
             System.out.println();
@@ -38,64 +168,7 @@ public class GamingBoard implements IGamingBoard{
             return false;
         }
 }
-    /*
-        Creates players, asking user if playing against
-        friend or computer
-     */
-    public void setPlayers(){
-        System.out.println("Want to play with:\n1.friend\nor\n2.computer?");
-        try{
-            int opponent = input.nextInt();
-            input.nextLine();
-            Player player1 = new Player();
-            if(opponent == 1){
-                Player player2 = new Player();
-                System.out.println("Enter player1's name: ");
-                player1.setName(input.nextLine());
-                System.out.println("Ok "+player1.getName()+", lets choose a sign X or O?");
-                player1.setSign(input.next().charAt(0));
-                input.nextLine();
-                System.out.println("Enter player2's name: ");
-                player2.setName(input.nextLine());
-                if(player1.getSign() == 'X' || player1.getSign() == 'x'){
-                    player2.setSign('O');
-                }else{
-                    player2.setSign('X');
-                }
-                players.add(player1);
-                players.add(player2);
-            }else{
-                Computer computer = new Computer();
-                System.out.println("Enter player1's name:");
-                player1.setName(input.nextLine());
-                computer.setName("Computer");
-                System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
-                int difficultyLevel = input.nextInt();
-                input.nextLine();
-                computer.setComputerDifficultyLevel(difficultyLevel);
-                System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
-                player1.setSign(input.next().charAt(0));
-                input.nextLine();
-                if(player1.getSign() == 'X' || player1.getSign() == 'x'){
-                    computer.setSign('O');
-                }else{
-                    computer.setSign('X');
-                }
-                players.add(player1);
-                players.add(computer);
-            }
 
-
-        }
-        //Handles exception prints message to user
-        catch(Exception e){
-            System.out.println("Wrong input, try again");
-            input.nextLine();
-            setPlayers();
-        }
-
-
-    }
     //Changes current player to next player
     public Player nextPlayer(){
         if (currentPlayer == null){
@@ -137,7 +210,7 @@ public class GamingBoard implements IGamingBoard{
                        // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(1);
+                            currentPlayer.setLastSelectedPosition(1);
                         }
                     }
                     break;
@@ -149,7 +222,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(2);
+                            currentPlayer.setLastSelectedPosition(2);
                         }
                     }
                     break;
@@ -161,7 +234,7 @@ public class GamingBoard implements IGamingBoard{
                         //prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(3);
+                            currentPlayer.setLastSelectedPosition(3);
                         }
                     }
                     break;
@@ -173,7 +246,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(4);
+                            currentPlayer.setLastSelectedPosition(4);
                         }
                     }
                     break;
@@ -185,7 +258,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(5);
+                            currentPlayer.setLastSelectedPosition(5);
                         }
                     }
                     break;
@@ -197,7 +270,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(6);
+                            currentPlayer.setLastSelectedPosition(6);
                         }
                     }
                     break;
@@ -209,7 +282,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(7);
+                            currentPlayer.setLastSelectedPosition(7);
                         }
                     }
                     break;
@@ -221,7 +294,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(8);
+                            currentPlayer.setLastSelectedPosition(8);
                         }
                     }
                     break;
@@ -233,7 +306,7 @@ public class GamingBoard implements IGamingBoard{
                         // prints the current board
                         printBoard();
                         if(currentPlayer.getName().equals("Computer")){
-                            currentPlayer.setLastSelectedNumber(9);
+                            currentPlayer.setLastSelectedPosition(9);
                         }
                     }
                     break;
