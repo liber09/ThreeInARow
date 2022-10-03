@@ -1,40 +1,48 @@
 import java.util.ArrayList;
 
 public class ExtendableGamingBoard implements IGamingBoard{
+    String[][] board;
+
+    public ExtendableGamingBoard(int boardSize){
+        board = new String[boardSize][boardSize];
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                board[i][j] = "_ | ";
+            }
+        }
+        printBoard(boardSize);
+        
 
 
+    }
     @Override
     public char[][] getNewBoard() {
         return new char[0][];
     }
 
-    @Override
-    public void printBoard(int boardSize) {
-        char[][] temp = {{'_','|','_','|'}};
-        ArrayList<char[][]> board = new ArrayList<char[][]>();
+    public void printBoard(int boardSize){
         for(int i=0; i<boardSize;i++){
             if (i == 0) {
-                System.out.print("    A"+i);
-            }else if(i == boardSize-1){
-                System.out.println("  A"+i);
-            }else{
+                System.out.print("   A"+i);
+            }else if(i == boardSize-1) {
+                System.out.println("  A" + i);
+            }else if(i>9) {
+                System.out.print(" A" + i);
+            }else if(i>99){
+                System.out.print("A" + i);
+            } else{
                 System.out.print("  A"+i);
             }
 
-        }
-        for(int j=0; j<boardSize;j++){
-            System.out.print("B"+j);
-            for(int k=0; k<(boardSize*2);k++){
-                if(k%2==0){
-                    System.out.print(' ');
-                    System.out.print('|');
-                }else{
-                    System.out.print(' ');
-                    System.out.print('_');
-                }
+    }
+        for(int j=0;j<boardSize;j++) {
+            System.out.print("B"+j+" ");
+            for(int k=0;k<boardSize;k++){
+                System.out.print(board[j][k]);
             }
             System.out.println();
         }
+
 
     }
 

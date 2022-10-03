@@ -7,4 +7,5 @@ public interface IGamingBoard {
     public void Play();
     public void resetGame();
     public void resetPlayers();
+
 }
