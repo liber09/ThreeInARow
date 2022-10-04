@@ -7,8 +7,8 @@ public class Main {
         GamePlay.setPlayers();
         gamingBoard.printBoard();
         do{
-            //gamingBoard.play();
-            gamingBoard.resetGame();
+            GamePlay.play((ExtendableGamingBoard)gamingBoard);
+            GamePlay.resetGame((ExtendableGamingBoard)gamingBoard);
             System.out.println("Do you want to play again?\nY.Yes\nN.No");
             continueGame = input.nextLine();
             if (continueGame.equalsIgnoreCase("n")){
@@ -24,7 +24,7 @@ public class Main {
                     continueGame = "y";
                 }
             }
-            //gamingBoard.printBoard();
+            gamingBoard.printBoard();
         }while(continueGame.equalsIgnoreCase("y"));
 
     }

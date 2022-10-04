@@ -28,9 +28,9 @@ public class GamePlay {
                 System.out.println("Enter player2's name: ");
                 player2.setName(input.nextLine());
                 if(player1.getSign().equals("X | ")){
-                    player2.setSign("O | ");
+                    player2.setSign("O");
                 }else{
-                    player2.setSign("X | ");
+                    player2.setSign("X");
                 }
                 players.add(player1);
                 players.add(player2);
@@ -45,9 +45,8 @@ public class GamePlay {
                 computer.setComputerDifficultyLevel(difficultyLevel);
                 System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
                 player1.setSign(input.nextLine().toUpperCase());
-                input.nextLine();
                 if(player1.getSign().equals("X | ")){
-                    computer.setSign("O | ");
+                    computer.setSign("O");
                 }else{
                     computer.setSign("X | ");
                 }
@@ -84,27 +83,45 @@ public class GamePlay {
     }
     public static void play(ExtendableGamingBoard gamingBoard){
         do{
-            if(positionFree){
-                currentPlayer = nextPlayer();
-                playedTurns++;
-            }
-            System.out.println(currentPlayer.getName() + " Choose your position (ex A3B2");
-            if(currentPlayer.getName().equals("Computer")){
-                chosenPosition = currentPlayer.ComputerTurn(gamingBoard, playedTurns, players.get(0).getSign());
-            }else{
-                chosenPosition = input.nextLine();
-            }
-                positionFree = isPositionFree(gamingBoard,Integer.parseInt(chosenPosition.substring(1,1)),Integer.parseInt(chosenPosition.substring(3,3)));
+            try{
                 if(positionFree){
-                    gamingBoard.board[Integer.parseInt(chosenPosition.substring(1,1))][Integer.parseInt(chosenPosition.substring(3,3))] = currentPlayer.getSign();
+                    currentPlayer = nextPlayer();
+                    playedTurns++;
+                }
+                System.out.println(currentPlayer.getName() + " Choose your position (ex A3B2");
+                if(currentPlayer.getName().equals("Computer")){
+                    chosenPosition = currentPlayer.ComputerTurn(gamingBoard, playedTurns, players.get(0).getSign());
+                }else{
+                    chosenPosition = input.nextLine().toUpperCase();
+                }
+                int row = Integer.parseInt(chosenPosition.substring(chosenPosition.lastIndexOf("A")+1,chosenPosition.lastIndexOf("B")));
+                int column = Integer.parseInt(chosenPosition.substring(chosenPosition.lastIndexOf("B")+1));
+                positionFree = isPositionFree(gamingBoard,row,column);
+                if(positionFree){
+                    gamingBoard.board[row][column] = currentPlayer.getSign();
                     gamingBoard.printBoard();
                     if(currentPlayer.getName().equals("Computer")){
                         currentPlayer.setLastSelectedPosition("A"+chosenPosition.substring(1,1)+"B"+chosenPosition.substring(3,3));
                     }
                 }
-            if (playedTurns > 4){
-                hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players,playedTurns);
+                if (playedTurns > 4){
+                    hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players,playedTurns);
+                }
+            }catch(Exception e){
+                System.out.println("You have to enter positin in correct format, ex A1B2. Please try again!");
             }
-        }while((playedTurns < gamingBoard.getSize()) && !hasAWinner);
+
+        }while((playedTurns < (gamingBoard.getSquares())) && !hasAWinner);
+    }
+    public static void resetGame(ExtendableGamingBoard gamingBoard){
+        gamingBoard.getNewBoard(gamingBoard.getSize());
+        positionFree = true;
+        playedTurns = 0;
+        currentPlayer = null;
+        chosenPosition = "";
+        hasAWinner = false;
+    }
+    public void resetPlayers(){
+        players.clear();
     }
 }

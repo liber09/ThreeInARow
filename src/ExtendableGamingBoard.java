@@ -13,6 +13,9 @@ public class ExtendableGamingBoard implements IGamingBoard{
             }
         }
     }
+    public int getSquares(){
+         return getSize()*getSize();
+    }
     @Override
     public String[][] getNewBoard(int boardSize) {
         board = new String[boardSize][boardSize];
@@ -86,4 +89,5 @@ public class ExtendableGamingBoard implements IGamingBoard{
     public int getNumberInRowToWin(){
         return this.numberInRowToWin;
     }
+
 }

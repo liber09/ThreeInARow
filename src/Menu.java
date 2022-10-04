@@ -3,6 +3,7 @@ public class Menu {
     static Scanner input = new Scanner(System.in);
     public static IGamingBoard printStartMenu(){
         int userMenuChoice = 0;
+        Boolean leaveMenu = false;
         IGamingBoard gamingBoard = new ExtendableGamingBoard(3,3);
         WelcomePhrase();
             try{
@@ -12,6 +13,7 @@ public class Menu {
                     input.nextLine();
                     if(userMenuChoice == 1){
                         gamingBoard = new ExtendableGamingBoard(3,3);
+                        leaveMenu = true;
                     }else if(userMenuChoice == 2){
                         System.out.println("What board size (number of cells) would you like to play with?");
                         int boardSize = input.nextInt();
@@ -19,11 +21,11 @@ public class Menu {
                         int numberInRowToWin = input.nextInt();
                         input.nextLine();
                         gamingBoard = new ExtendableGamingBoard(boardSize,numberInRowToWin);
-                        return gamingBoard;
+                        leaveMenu = true;
                     }else{
                         System.out.println("You have to make a correct choice of 1 or 2. Try again");
                     }
-                }while (userMenuChoice != 1 || userMenuChoice != 2);
+                }while (!leaveMenu);
             }catch(Exception e){
                 System.out.println("You have to make a correct choice of 1 or 2. Try again");
             }
