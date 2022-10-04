@@ -101,14 +101,14 @@ public class GamePlay {
                     gamingBoard.board[row][column] = currentPlayer.getSign();
                     gamingBoard.printBoard();
                     if(currentPlayer.getName().equals("Computer")){
-                        currentPlayer.setLastSelectedPosition("A"+chosenPosition.substring(1,1)+"B"+chosenPosition.substring(3,3));
+                        currentPlayer.setLastSelectedPosition("A"+row+"B"+column);
                     }
                 }
                 if (playedTurns > 4){
                     hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players,playedTurns);
                 }
             }catch(Exception e){
-                System.out.println("You have to enter positin in correct format, ex A1B2. Please try again!");
+                System.out.println("You have to enter position in correct format, ex A1B2. Please try again!");
             }
 
         }while((playedTurns < (gamingBoard.getSquares())) && !hasAWinner);
@@ -121,7 +121,7 @@ public class GamePlay {
         chosenPosition = "";
         hasAWinner = false;
     }
-    public void resetPlayers(){
+    public static void resetPlayers(){
         players.clear();
     }
 }

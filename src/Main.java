@@ -19,8 +19,8 @@ public class Main {
                     continueGame = input.nextLine();
                 }
                 if(resetGame.equalsIgnoreCase("y")){
-                    gamingBoard.resetPlayers();
-                    gamingBoard.setPlayers();
+                    GamePlay.resetPlayers();
+                    GamePlay.setPlayers();
                     continueGame = "y";
                 }
             }

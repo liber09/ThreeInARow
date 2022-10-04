@@ -3,9 +3,11 @@ import java.util.Random;
 
 public class Computer extends Player{
     private int computerDifficultyLevel;
-    private String lastSelectedPosition;
+    private String lastSelectedPosition = "";
     private Random rnd = new Random();
     private ArrayList<String> triedPositions = new ArrayList<String>();
+    private int NumberOfAttempts = 0;
+
 
     public Computer(){
         super();
@@ -42,7 +44,8 @@ public class Computer extends Player{
         }
         if(getComputerDifficultyLevel() == 2){
             if(getLastSelectedPosition().equals("")){
-                return "A"+rnd.nextInt(currentBoard.getSize())+"B"+rnd.nextInt(currentBoard.getSize());
+                String randomPosition = "A"+rnd.nextInt(currentBoard.getSize())+"B"+rnd.nextInt(currentBoard.getSize());
+                return randomPosition;
             }
             return bestComputerMoveLev2(getLastSelectedPosition(),currentBoard);
         }
@@ -58,30 +61,39 @@ public class Computer extends Player{
     private String bestComputerMoveLev2(String lastSelectedPosition,ExtendableGamingBoard currentBoard){
         int randomRow;
         int randomColumn;
-        int row = Integer.parseInt(lastSelectedPosition.substring(1,lastSelectedPosition.lastIndexOf("B")-1));
-        int column = Integer.parseInt(lastSelectedPosition.substring(lastSelectedPosition.lastIndexOf("B")+1));
+        String newRandomizedPosition = "";
+        if(NumberOfAttempts < 6){
+            int row = Integer.parseInt(lastSelectedPosition.substring(lastSelectedPosition.lastIndexOf("A")+1,lastSelectedPosition.lastIndexOf("B")));
+            int column = Integer.parseInt(lastSelectedPosition.substring(lastSelectedPosition.lastIndexOf("B")+1));
 
-        if ((row-1) < 0){
-            //out of bounds, keep existing row as min value for random
-            randomRow = rnd.nextInt(row,row+1);
-        }else if ((row+1) > currentBoard.getSize()){
-            //out of bounds, keep existing row as min value for random
-            randomRow = rnd.nextInt(row-1,row);
-        }else{
-            randomRow = rnd.nextInt(row-1,row+1);
+            if ((row-1) < 0){
+                //out of bounds, keep existing row as min value for random
+                randomRow = rnd.nextInt(row,row+1);
+            }else if ((row+1) > currentBoard.getSize()){
+                //out of bounds, keep existing row as min value for random
+                randomRow = rnd.nextInt(row-1,row);
+            }else{
+                randomRow = rnd.nextInt(row-1,row+1);
+            }
+            if ((column-1) < 0){
+                //out of bounds, keep existing column as min value for random
+                randomColumn = rnd.nextInt(column,column+1);
+            }else if ((column+1) > currentBoard.getSize()){
+                //keep column as max value
+                randomColumn = rnd.nextInt(column-1,column);
+            }else{
+                randomColumn = rnd.nextInt(column-1,column+1);
+            }
+            newRandomizedPosition = "A"+randomRow+"B"+randomColumn;
+            NumberOfAttempts++;
+            return newRandomizedPosition;
         }
-        if ((column-1) < 0){
-            //out of bounds, keep existing column as min value for random
-            randomColumn = rnd.nextInt(column,column+1);
-        }else if ((column+1) > currentBoard.getSize()){
-            //keep column as max value
-            randomColumn = rnd.nextInt(column-1,column);
-        }else{
-            randomColumn = rnd.nextInt(column-1,column+1);
-        }
-        String newRandomizedPosition = "A"+randomRow+"B"+randomColumn;
-        triedPositions.add(newRandomizedPosition);
+        randomRow = rnd.nextInt(currentBoard.getSize());
+        randomColumn = rnd.nextInt(currentBoard.getSize());
+        newRandomizedPosition = "A"+randomRow+"B"+randomColumn;
+        NumberOfAttempts = 0;
         return newRandomizedPosition;
+
     }
     /*
     This is the hardest computer level. In this level the computer
