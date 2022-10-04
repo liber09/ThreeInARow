@@ -3,7 +3,7 @@ public class Menu {
     static Scanner input = new Scanner(System.in);
     public static IGamingBoard printStartMenu(){
         int userMenuChoice = 0;
-        IGamingBoard gamingBoard = new ExtendableGamingBoard(3);
+        IGamingBoard gamingBoard = new ExtendableGamingBoard(3,3);
         WelcomePhrase();
             try{
                 do{
@@ -11,12 +11,14 @@ public class Menu {
                     userMenuChoice = input.nextInt();
                     input.nextLine();
                     if(userMenuChoice == 1){
-                        gamingBoard = new ExtendableGamingBoard(3);
+                        gamingBoard = new ExtendableGamingBoard(3,3);
                     }else if(userMenuChoice == 2){
                         System.out.println("What board size (number of cells) would you like to play with?");
                         int boardSize = input.nextInt();
+                        System.out.println("How many signs in a row to win?");
+                        int numberInRowToWin = input.nextInt();
                         input.nextLine();
-                        gamingBoard = new ExtendableGamingBoard(boardSize);
+                        gamingBoard = new ExtendableGamingBoard(boardSize,numberInRowToWin);
                         return gamingBoard;
                     }else{
                         System.out.println("You have to make a correct choice of 1 or 2. Try again");

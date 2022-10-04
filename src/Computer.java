@@ -5,7 +5,7 @@ public class Computer extends Player{
     private int computerDifficultyLevel;
     private String lastSelectedPosition;
     private Random rnd = new Random();
-    private ArrayList<Integer> triedNumbers = new ArrayList<Integer>();
+    private ArrayList<String> triedPositions = new ArrayList<String>();
 
     public Computer(){
         super();
@@ -25,7 +25,7 @@ public class Computer extends Player{
      */
     public void setLastSelectedPosition(String lastSelectedPosition){
         this.lastSelectedPosition = lastSelectedPosition;
-        triedNumbers.clear();
+        triedPositions.clear();
     }
     public String getLastSelectedPosition(){
         return lastSelectedPosition;
@@ -36,7 +36,7 @@ public class Computer extends Player{
     chosen difficulty level the computer randomizes in the easiest
     and has an improved AI in medium and even more improved in Hard.
      */
-    public String ComputerTurn(ExtendableGamingBoard currentBoard, int playedTurns, String sign){
+    public String ComputerTurn(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign){
         if (getComputerDifficultyLevel() == 1){
             return "A"+rnd.nextInt(currentBoard.getSize())+"B"+rnd.nextInt(currentBoard.getSize());
         }
@@ -44,123 +44,63 @@ public class Computer extends Player{
             if(getLastSelectedPosition().equals("")){
                 return "A"+rnd.nextInt(currentBoard.getSize())+"B"+rnd.nextInt(currentBoard.getSize());
             }
-            //return bestComputerMoveLev2(getLastSelectedPosition());
+            return bestComputerMoveLev2(getLastSelectedPosition(),currentBoard);
         }
-        //if(getComputerDifficultyLevel() == 3){
-        //    return bestComputerMoveLev3(currentBoard, playedTurns, sign);
-        //}
+        if(getComputerDifficultyLevel() == 3){
+            return bestComputerMoveLev3(currentBoard, playedTurns, opponentSign);
+        }
         return "A0B0";
     }
     /*
         This method calculates which positions that
         are next to the last one the computer selected.
      */
-    private int bestComputerMoveLev2(String lastSelectedNumber){
-        int rndTempNr;
-        switch (rndTempNr) {
-            //1 = top left corner. that means 2, 4 or 5 are
-            //possible best options for next move.
-            // but a random function makes the choice so that
-            //it won't be obvious which one the computer will select.
-            case 1:
-                if (triedNumbers.contains(2) && triedNumbers.contains(4) && triedNumbers.contains(5)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 1 || rndTempNr == 3 || rndTempNr == 6 || rndTempNr == 7 || rndTempNr == 8 || rndTempNr == 9);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 2:
-                if (triedNumbers.contains(1) && triedNumbers.contains(4) && triedNumbers.contains(5) && triedNumbers.contains(6) && triedNumbers.contains(3)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 2 || rndTempNr == 7 || rndTempNr == 8 || rndTempNr == 9);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 3:
-                if (triedNumbers.contains(2) && triedNumbers.contains(5) && triedNumbers.contains(6)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 3 || rndTempNr == 1 || rndTempNr == 4 || rndTempNr == 7 || rndTempNr == 8 || rndTempNr == 9);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 4:
-                if (triedNumbers.contains(1) && triedNumbers.contains(2) && triedNumbers.contains(5) && triedNumbers.contains(7) && triedNumbers.contains(8)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 4 || rndTempNr == 3 || rndTempNr == 6 || rndTempNr == 9);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 5:
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 5);
-                return rndTempNr;
-            case 6:
-                if (triedNumbers.contains(2) && triedNumbers.contains(3) && triedNumbers.contains(5) && triedNumbers.contains(8) && triedNumbers.contains(9)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 6 || rndTempNr == 1 || rndTempNr == 4 || rndTempNr == 7);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 7:
-                if (triedNumbers.contains(4) && triedNumbers.contains(5) && triedNumbers.contains(8)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 7 || rndTempNr == 1 || rndTempNr == 2 || rndTempNr == 3 || rndTempNr == 6 || rndTempNr == 9);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 8:
-                if (triedNumbers.contains(4) && triedNumbers.contains(5) && triedNumbers.contains(6) && triedNumbers.contains(7) && triedNumbers.contains(9)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 8 || rndTempNr == 1 || rndTempNr == 2 || rndTempNr == 3);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            case 9:
-                if (triedNumbers.contains(5) && triedNumbers.contains(6) && triedNumbers.contains(8)) {
-                    return rnd.nextInt(9) + 1;
-                }
-                do {
-                    rndTempNr = rnd.nextInt(9) + 1;
-                } while (rndTempNr == 9 || rndTempNr == 1 || rndTempNr == 2 || rndTempNr == 3 || rndTempNr == 4 || rndTempNr == 7);
-                triedNumbers.add(rndTempNr);
-                return rndTempNr;
-            default:
-                return 0;
+    private String bestComputerMoveLev2(String lastSelectedPosition,ExtendableGamingBoard currentBoard){
+        int randomRow;
+        int randomColumn;
+        int row = Integer.parseInt(lastSelectedPosition.substring(1,lastSelectedPosition.lastIndexOf("B")-1));
+        int column = Integer.parseInt(lastSelectedPosition.substring(lastSelectedPosition.lastIndexOf("B")+1));
+
+        if ((row-1) < 0){
+            //out of bounds, keep existing row as min value for random
+            randomRow = rnd.nextInt(row,row+1);
+        }else if ((row+1) > currentBoard.getSize()){
+            //out of bounds, keep existing row as min value for random
+            randomRow = rnd.nextInt(row-1,row);
+        }else{
+            randomRow = rnd.nextInt(row-1,row+1);
         }
+        if ((column-1) < 0){
+            //out of bounds, keep existing column as min value for random
+            randomColumn = rnd.nextInt(column,column+1);
+        }else if ((column+1) > currentBoard.getSize()){
+            //keep column as max value
+            randomColumn = rnd.nextInt(column-1,column);
+        }else{
+            randomColumn = rnd.nextInt(column-1,column+1);
+        }
+        String newRandomizedPosition = "A"+randomRow+"B"+randomColumn;
+        triedPositions.add(newRandomizedPosition);
+        return newRandomizedPosition;
     }
-    private int bestComputerMoveLev3(char[][] currentBoard, int playedTurns, char sign){
+    private String bestComputerMoveLev3(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign){
         int rndTempNr;
         int numberToWin = 0;
         int numberToBlock = 0;
         //Best position is middle so begin by returning 5
-        if(!triedNumbers.contains(5)){
-            triedNumbers.add(5);
+        if(!triedPositions.contains(5)){
+            triedPositions.add(5);
             return 5;
         }
         //second best are corners so try those
         if(playedTurns <= 2){
-            if(triedNumbers.contains(1) && triedNumbers.contains(3) && triedNumbers.contains(7) &&triedNumbers.contains(9)){
+            if(triedPositions.contains(1) && triedPositions.contains(3) && triedPositions.contains(7) && triedPositions.contains(9)){
                 return rnd.nextInt(9) + 1;
             }
             do {
                 rndTempNr = rnd.nextInt(9) + 1;
             } while (rndTempNr == 5 || rndTempNr == 2 || rndTempNr == 4 || rndTempNr == 6 || rndTempNr == 8);
-            triedNumbers.add(rndTempNr);
+            triedPositions.add(rndTempNr);
             return rndTempNr;
         }else{
             //First see if computer can win game
