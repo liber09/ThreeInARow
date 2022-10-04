@@ -83,164 +83,142 @@ public class Computer extends Player{
         triedPositions.add(newRandomizedPosition);
         return newRandomizedPosition;
     }
+    /*
+    This is the hardest computer level. In this level the computer
+    will try to block the opponent from winning the game.
+    First the AI will try to win itself and if that is not possible
+    the AI will try to block the opponent from winning the game.
+     */
     private String bestComputerMoveLev3(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign){
-        int rndTempNr;
-        int numberToWin = 0;
-        int numberToBlock = 0;
-        //Best position is middle so begin by returning 5
-        if(!triedPositions.contains(5)){
-            triedPositions.add(5);
-            return 5;
+        String positionToWin = "";
+        String positionToBlock = "";
+
+        //Best position is middle so calculate middle of board and try to place there.
+        int middleOfBoard = currentBoard.getSize()/2;
+        String middlePosition = "A"+ middleOfBoard+"B"+middleOfBoard;
+        if(!triedPositions.contains(middlePosition)){
+            triedPositions.add(middlePosition);
+            return middlePosition;
         }
-        //second best are corners so try those
-        if(playedTurns <= 2){
-            if(triedPositions.contains(1) && triedPositions.contains(3) && triedPositions.contains(7) && triedPositions.contains(9)){
-                return rnd.nextInt(9) + 1;
+        //second best are corners so try those (when board is 3X3)
+        if(currentBoard.getSize() == 3){
+            if(playedTurns <= 2){
+                String newPosition;
+                //There are 4 corners 0 = topleft (A0B0) 1= topRight (A0B2) 2 = leftBottom(A2B0) 3 rightBottom(A2B2)
+                int randomPosition = rnd.nextInt(4);
+                switch(randomPosition){
+                    case 0:
+                        newPosition = "A0B0";
+                        triedPositions.add(newPosition);
+                        return newPosition;
+                    case 1:
+                        newPosition = "A0B2";
+                        triedPositions.add(newPosition);
+                        return newPosition;
+                    case 2:
+                        newPosition = "A2B0";
+                        triedPositions.add(newPosition);
+                        return newPosition;
+                    case 3:
+                        newPosition = "A2B2";
+                        triedPositions.add(newPosition);
+                        return newPosition;
+                }
+            }else{
+                //First see if computer can win game
+                positionToWin = checkIfPlayerCanWin(currentBoard, this.getSign(),opponentSign);
+            if (!positionToWin.equals("")){
+                    return positionToWin;
+                }
+                positionToBlock = checkIfPlayerCanWin(currentBoard,opponentSign,this.getSign());
+                if(!positionToBlock.equals("")){
+                    return positionToBlock;
+                }
+
             }
-            do {
-                rndTempNr = rnd.nextInt(9) + 1;
-            } while (rndTempNr == 5 || rndTempNr == 2 || rndTempNr == 4 || rndTempNr == 6 || rndTempNr == 8);
-            triedPositions.add(rndTempNr);
-            return rndTempNr;
-        }else{
-            //First see if computer can win game
-            numberToWin = checkIfComputerCanWin(currentBoard);
-            if (numberToWin != 0){
-                return numberToWin;
-            }
-            numberToBlock = checkIfOpponentCanWin(currentBoard,sign);
-            if(numberToBlock != 0){
-                return numberToBlock;
-            }
-            return rnd.nextInt(9) + 1;
         }
+        int randomRow = rnd.nextInt(currentBoard.getSize());
+        int randomColumn = rnd.nextInt(currentBoard.getSize());
+        String randomPosition = "A"+randomRow+"B"+randomColumn;
+        return randomPosition;
     }
 
-    private int checkIfOpponentCanWin(char[][] currentBoard, char player1Sign) {
-        int winningPosition = 0;
-        //Vertical checking
-        if(currentBoard[0][0] == player1Sign && currentBoard[0][2] == player1Sign && currentBoard[0][4] == '_'){
-            winningPosition = 3;
-        } else if (currentBoard[0][0] == player1Sign && currentBoard[0][4] == player1Sign && currentBoard[0][2] == '_') {
-            winningPosition = 2;
-        }else if (currentBoard[0][2] == player1Sign && currentBoard[0][4] == player1Sign && currentBoard[0][0] == '_') {
-            winningPosition = 1;
-        }
-        if(currentBoard[1][0] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[1][4] == '_'){
-            winningPosition = 6;
-        } else if (currentBoard[1][0] == player1Sign && currentBoard[1][4] == player1Sign && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == player1Sign && currentBoard[1][4] == player1Sign && currentBoard[1][0] == '_') {
-            winningPosition = 4;
-        }
-        if(currentBoard[2][0] == player1Sign && currentBoard[2][2] == player1Sign && currentBoard[2][4] == ' '){
-            winningPosition = 9;
-        } else if (currentBoard[2][0] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[2][2] == ' ') {
-            winningPosition = 8;
-        }else if (currentBoard[2][2] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[2][0] == ' ') {
-            winningPosition = 7;
-        }
+    private String checkIfPlayerCanWin(ExtendableGamingBoard currentBoard, String signToCheck, String opponentSign) {
+        String winningPosition = "";
+        int inARowCount = 0;
+        String emptyRowIndex = "";
+        String emptyColumnIndex = "";
         //Horizontal checking
-        if(currentBoard[0][0] == player1Sign && currentBoard[1][0] == player1Sign && currentBoard[2][0] == ' '){
-            winningPosition = 7;
-        } else if (currentBoard[0][0] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[1][0] == '_') {
-            winningPosition = 4;
-        }else if (currentBoard[1][0] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[0][0] == '_') {
-            winningPosition = 1;
+        for (int i = 0; i < currentBoard.getNumberInRowToWin(); i++) {
+            for (int j = 0; j < currentBoard.getNumberInRowToWin(); j++) {
+                if (currentBoard.board[i][j].equals(signToCheck)) {
+                    inARowCount++;
+                    if (inARowCount == currentBoard.getNumberInRowToWin() - 1) {
+                        if (!emptyColumnIndex.equals("")) {
+                            winningPosition = "A" + emptyRowIndex + "B" + emptyColumnIndex;
+                            return winningPosition;
+                        }
+                        if (j + 1 < currentBoard.getSize())
+                            winningPosition = "A" + (i) + "B" + (j + 1);
+                        return winningPosition;
+                    }
+                } else if (currentBoard.board[i][j].equals("_ | ")) {
+                    emptyColumnIndex = Integer.toString(j);
+                    emptyRowIndex = Integer.toString(i);
+                    inARowCount++;
+                } else if (currentBoard.board[i][j].equals(opponentSign)) {
+                    inARowCount = 0;
+                }
+            }
         }
-        if(currentBoard[0][2] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[2][2] == ' '){
-            winningPosition = 8;
-        } else if (currentBoard[0][2] == player1Sign && currentBoard[2][2] == player1Sign && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == player1Sign && currentBoard[2][2] == player1Sign && currentBoard[0][2] == '_') {
-            winningPosition = 2;
+        //Vertical Checking
+        for (int i = 0; i < currentBoard.getNumberInRowToWin(); i++) {
+            for (int j = 0; j < currentBoard.getNumberInRowToWin(); j++) {
+                if (currentBoard.board[j][i].equals(signToCheck)) {
+                    inARowCount++;
+                    if (inARowCount == currentBoard.getNumberInRowToWin() - 1) {
+                        if (!emptyColumnIndex.equals("")) {
+                            winningPosition = "A" + emptyRowIndex + "B" + emptyColumnIndex;
+                            return winningPosition;
+                        }
+                        if (j + 1 < currentBoard.getSize()) {
+                            winningPosition = "A" + (j + 1) + "B" + (i);
+                            return winningPosition;
+                        }
+                    }
+                } else if (currentBoard.board[j][i].equals("_ | ")) {
+                    emptyColumnIndex = Integer.toString(j);
+                    emptyRowIndex = Integer.toString(i);
+                    inARowCount++;
+                } else if (currentBoard.board[j][i].equals(opponentSign)) {
+                    inARowCount = 0;
+                }
+            }
         }
-        if(currentBoard[0][4] == player1Sign && currentBoard[1][4] == player1Sign && currentBoard[2][4] == ' '){
-            winningPosition = 9;
-        } else if (currentBoard[0][4] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[1][4] == '_') {
-            winningPosition = 6;
-        }else if (currentBoard[1][4] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[0][4] == '_') {
-            winningPosition = 3;
+        //diagonal checks
+        int d = 0;
+        for (d = 0; d < currentBoard.getNumberInRowToWin(); d++) {
+            if (currentBoard.board[d][d].equals("_ | ")) {
+                emptyColumnIndex = Integer.toString(d);
+                emptyRowIndex = Integer.toString(d);
+            } else if (!currentBoard.board[d][d].equals(signToCheck)) {
+                break;
+            }
+            if (d == currentBoard.getNumberInRowToWin() - 1) {
+                if (!emptyRowIndex.equals("")) {
+                    winningPosition = "A" + emptyRowIndex + "B" + emptyColumnIndex;
+                    return winningPosition;
+                } else {
+                    if (d + 1 < currentBoard.getSize()) {
+                        winningPosition = "A" + (d + 1) + "B" + (d + 1);
+                        return winningPosition;
+                    }
+                }
+            }
         }
-        //DiagonalChecking
-        if(currentBoard[0][0] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[2][4] == ' '){
-            winningPosition = 9;
-        } else if (currentBoard[0][0] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == player1Sign && currentBoard[2][4] == player1Sign && currentBoard[0][0] == '_') {
-            winningPosition = 1;
-        }
-        if(currentBoard[0][4] == player1Sign && currentBoard[1][2] == player1Sign && currentBoard[2][0] == ' '){
-            winningPosition = 7;
-        } else if (currentBoard[0][4] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == player1Sign && currentBoard[2][0] == player1Sign && currentBoard[0][4] == '_') {
-            winningPosition = 3;
-        }
-        return winningPosition;
-    }
-
-    private int checkIfComputerCanWin(char[][] currentBoard){
-        int winningPosition = 0;
-        //Vertical checking
-        if(currentBoard[0][0] == this.getSign() && currentBoard[0][2] == this.getSign() && currentBoard[0][4] == '_'){
-            winningPosition = 3;
-        } else if (currentBoard[0][0] == this.getSign() && currentBoard[0][4] == this.getSign() && currentBoard[0][2] == '_') {
-            winningPosition = 2;
-        }else if (currentBoard[0][2] == this.getSign() && currentBoard[0][4] == this.getSign() && currentBoard[0][0] == '_') {
-            winningPosition = 1;
-        }
-        if(currentBoard[1][0] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[1][4] == '_'){
-            winningPosition = 6;
-        } else if (currentBoard[1][0] == this.getSign() && currentBoard[1][4] == this.getSign() && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == this.getSign() && currentBoard[1][4] == this.getSign() && currentBoard[1][0] == '_') {
-            winningPosition = 4;
-        }
-        if(currentBoard[2][0] == this.getSign() && currentBoard[2][2] == this.getSign() && currentBoard[2][4] == ' '){
-            winningPosition = 9;
-        } else if (currentBoard[2][0] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[2][2] == ' ') {
-            winningPosition = 8;
-        }else if (currentBoard[2][2] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[2][0] == ' ') {
-            winningPosition = 7;
-        }
-        //Horizontal checking
-        if(currentBoard[0][0] == this.getSign() && currentBoard[1][0] == this.getSign() && currentBoard[2][0] == ' '){
-            winningPosition = 7;
-        } else if (currentBoard[0][0] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[1][0] == '_') {
-            winningPosition = 4;
-        }else if (currentBoard[1][0] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[0][0] == '_') {
-            winningPosition = 1;
-        }
-        if(currentBoard[0][2] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[2][2] == ' '){
-            winningPosition = 8;
-        } else if (currentBoard[0][2] == this.getSign() && currentBoard[2][2] == this.getSign() && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == this.getSign() && currentBoard[2][2] == this.getSign() && currentBoard[0][2] == '_') {
-            winningPosition = 2;
-        }
-        if(currentBoard[0][4] == this.getSign() && currentBoard[1][4] == this.getSign() && currentBoard[2][4] == ' '){
-            winningPosition = 9;
-        } else if (currentBoard[0][4] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[1][4] == '_') {
-            winningPosition = 6;
-        }else if (currentBoard[1][4] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[0][4] == '_') {
-            winningPosition = 3;
-        }
-        //DiagonalChecking
-        if(currentBoard[0][0] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[2][4] == ' '){
-            winningPosition = 9;
-        } else if (currentBoard[0][0] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == this.getSign() && currentBoard[2][4] == this.getSign() && currentBoard[0][0] == '_') {
-            winningPosition = 1;
-        }
-        if(currentBoard[0][4] == this.getSign() && currentBoard[1][2] == this.getSign() && currentBoard[2][0] == ' '){
-            winningPosition = 7;
-        } else if (currentBoard[0][4] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[1][2] == '_') {
-            winningPosition = 5;
-        }else if (currentBoard[1][2] == this.getSign() && currentBoard[2][0] == this.getSign() && currentBoard[0][4] == '_') {
-            winningPosition = 3;
-        }
-        return winningPosition;
+        int randomRow = rnd.nextInt(currentBoard.getSize());
+        int randomColumn = rnd.nextInt(currentBoard.getSize());
+        String randomMove = "A"+randomRow+"B"+randomColumn;
+        return randomMove;
     }
 }
