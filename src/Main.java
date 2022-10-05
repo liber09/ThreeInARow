@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Main {
-    static Scanner input = new Scanner(System.in);
-    static String continueGame = "";
+    private static Scanner input = new Scanner(System.in);
+    private static String continueGame = "";
     public static void main(String[] args) {
         IGamingBoard gamingBoard = Menu.printStartMenu();
         GamePlay.setPlayers();

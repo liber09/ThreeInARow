@@ -104,6 +104,7 @@ public class Computer extends Player{
     private String bestComputerMoveLev3(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign){
         String positionToWin = "";
         String positionToBlock = "";
+        String newPosition = "";
 
         //Best position is middle so calculate middle of board and try to place there.
         int middleOfBoard = currentBoard.getSize()/2;
@@ -113,9 +114,8 @@ public class Computer extends Player{
             return middlePosition;
         }
         //second best are corners so try those (when board is 3X3)
-        if(currentBoard.getSize() == 3){
+        if(currentBoard.getSize() == 3 && NumberOfAttempts <6){
             if(playedTurns <= 2){
-                String newPosition;
                 //There are 4 corners 0 = topleft (A0B0) 1= topRight (A0B2) 2 = leftBottom(A2B0) 3 rightBottom(A2B2)
                 int randomPosition = rnd.nextInt(4);
                 switch(randomPosition){
@@ -140,18 +140,65 @@ public class Computer extends Player{
                 //First see if computer can win game
                 positionToWin = checkIfPlayerCanWin(currentBoard, this.getSign(),opponentSign);
             if (!positionToWin.equals("")){
+                    NumberOfAttempts++;
                     return positionToWin;
                 }
                 positionToBlock = checkIfPlayerCanWin(currentBoard,opponentSign,this.getSign());
                 if(!positionToBlock.equals("")){
+                    NumberOfAttempts++;
                     return positionToBlock;
                 }
-
+            }
+        } else if (currentBoard.getSize()>3) {
+            //Best position is middle so calculate middle of board and try to place there.
+            middleOfBoard = currentBoard.getSize()/2;
+            middlePosition = "A"+ middleOfBoard+"B"+middleOfBoard;
+            if(!triedPositions.contains(middlePosition)){
+                triedPositions.add(middlePosition);
+                return middlePosition;
+            }
+            //second best are corners so try those (when board is 3X3)
+            if(currentBoard.getSize() == 3 && NumberOfAttempts <6) {
+                if (playedTurns <= 2) {
+                    //There are 4 corners 0 = topleft (A0B0) 1= topRight (A0B2) 2 = leftBottom(A2B0) 3 rightBottom(A2B2)
+                    int randomPosition = rnd.nextInt(4);
+                    switch (randomPosition) {
+                        case 0:
+                            newPosition = "A0B0";
+                            triedPositions.add(newPosition);
+                            return newPosition;
+                        case 1:
+                            newPosition = "A0B"+currentBoard.getSize();
+                            triedPositions.add(newPosition);
+                            return newPosition;
+                        case 2:
+                            newPosition = "A"+currentBoard.getSize()+"B0";
+                            triedPositions.add(newPosition);
+                            return newPosition;
+                        case 3:
+                            newPosition = "A"+ currentBoard.getSize()+"B"+currentBoard.getSize();
+                            triedPositions.add(newPosition);
+                            return newPosition;
+                    }
+                } else {
+                    //First see if computer can win game
+                    positionToWin = checkIfPlayerCanWin(currentBoard, this.getSign(), opponentSign);
+                    if (!positionToWin.equals("")) {
+                        NumberOfAttempts++;
+                        return positionToWin;
+                    }
+                    if (!positionToBlock.equals("")) {
+                        NumberOfAttempts++;
+                        return positionToBlock;
+                    }
+                    newPosition = bestComputerMoveLev2(getLastSelectedPosition(),currentBoard);
+                }
             }
         }
         int randomRow = rnd.nextInt(currentBoard.getSize());
         int randomColumn = rnd.nextInt(currentBoard.getSize());
         String randomPosition = "A"+randomRow+"B"+randomColumn;
+        NumberOfAttempts = 0;
         return randomPosition;
     }
 
@@ -166,17 +213,16 @@ public class Computer extends Player{
         for(int i=0;i < currentBoard.getSize();i++)
             //firstnumber is row = horizontal, second number is column = vertical
             //since we change column for each iteration this loop checks horizontally
-            if(currentBoard.board[0][i].equals(signToCheck)){
-                int j;
-                for(j=1;j< currentBoard.getSize();j++){
-                    if (!currentBoard.board[j][i].equals(signToCheck)){
+            for(int j=0;j<currentBoard.getSize();j++){
+                if(currentBoard.board[i][j].equals(signToCheck)){
+                    if (!currentBoard.board[i][j].equals(signToCheck)){
                         break;
                     }
                 }
                 //if the inner loop has not found any opponent signs before
                 //reaching NumberInRowToWin-1, we have a winningPosition.
                 if(j == currentBoard.getSize()-1){
-                    winningPosition = "A"+(j+1)+"B"+i;
+                    winningPosition = "A"+j+"B"+i;
                     return winningPosition;
                 }
             }
@@ -184,17 +230,16 @@ public class Computer extends Player{
         for(int i=0;i < currentBoard.getSize();i++)
             //firstNumber is row = horizontal, second number is column = vertical
             //since we change column for each iteration this loop checks horizontally
-            if(currentBoard.board[i][0].equals(signToCheck)){
-                int j;
-                for(j=1;j< currentBoard.getSize();j++){
-                    if (!currentBoard.board[i][j].equals(signToCheck)){
+            for(int j=0;j<currentBoard.getSize();j++){
+                if(currentBoard.board[j][i].equals(signToCheck)){
+                    if (!currentBoard.board[j][i].equals(signToCheck)){
                         break;
                     }
                 }
                 //if the inner loop has not found any opponent signs before
                 //reaching NumberInRowTOWin, we have a winner.
                 if(j == currentBoard.getSize()-1){
-                    winningPosition = "A"+i+"B"+(j+1);
+                    winningPosition = "A"+i+"B"+j;
                     return winningPosition;
                 }
             }
@@ -206,7 +251,7 @@ public class Computer extends Player{
             }
         }
         if(d== currentBoard.getSize()-1){
-            winningPosition = "A"+(d+1)+"B"+(d+1);
+            winningPosition = "A"+d+"B"+d;
             return winningPosition;
         }
         //Checks reverse diagonally. Starting at top right position
@@ -217,7 +262,7 @@ public class Computer extends Player{
             }
         }
         if(d== currentBoard.getSize()){
-            winningPosition = "A"+(d-1)+"B"+(d-1);
+            winningPosition = "A"+d+"B"+d;
             return winningPosition;
         }
         return "";

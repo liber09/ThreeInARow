@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class GamePlay {
     private static Scanner input = new Scanner(System.in);
     private static ArrayList<Player> players = new ArrayList<Player>();
@@ -61,6 +60,7 @@ public class GamePlay {
             setPlayers();
         }
     }
+    //Changes player
     public static Player nextPlayer(){
         if (currentPlayer == null){
             return players.get(0);
@@ -81,11 +81,15 @@ public class GamePlay {
             return false;
         }
     }
+    /*
+    Method that handles all gameplay.
+     */
     public static void play(ExtendableGamingBoard gamingBoard){
         do{
             try{
                 if(positionFree){
                     currentPlayer = nextPlayer();
+                    positionFree = false;
                     playedTurns++;
                 }
                 System.out.println(currentPlayer.getName() + " Choose your position (ex A3B2");
@@ -113,6 +117,7 @@ public class GamePlay {
 
         }while((playedTurns < (gamingBoard.getSquares())) && !hasAWinner);
     }
+    //Resets the game.
     public static void resetGame(ExtendableGamingBoard gamingBoard){
         gamingBoard.getNewBoard(gamingBoard.getSize());
         positionFree = true;
@@ -121,7 +126,10 @@ public class GamePlay {
         chosenPosition = "";
         hasAWinner = false;
     }
-    public static void resetPlayers(){
+
+    //Clears the playerlist so it is possilble to start all over witout restarting
+    public static void resetPlayers() {
         players.clear();
     }
+
 }
