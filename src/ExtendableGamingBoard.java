@@ -9,7 +9,7 @@ public class ExtendableGamingBoard implements IGamingBoard{
         board = new String[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                board[i][j] = "_ | ";
+                board[i][j] = "_";
             }
         }
     }
@@ -21,7 +21,7 @@ public class ExtendableGamingBoard implements IGamingBoard{
         board = new String[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                board[i][j] = "_ | ";
+                board[i][j] = "_";
             }
         }
         return board;
@@ -45,7 +45,7 @@ public class ExtendableGamingBoard implements IGamingBoard{
         for(int j=0;j<size;j++) {
             System.out.print("A"+j+" ");
             for(int k=0;k<size;k++){
-                System.out.print(board[j][k]);
+                System.out.print(board[j][k]+" | ");
             }
             System.out.println();
         }

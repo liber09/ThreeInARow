@@ -13,7 +13,7 @@ public class Player {
     }
         //Set players sign
         public void setSign(String sign){
-            this.sign = sign+" | ";
+            this.sign = sign;
         }
         //return players sign
         public String getSign(){

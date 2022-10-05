@@ -160,77 +160,66 @@ public class Computer extends Player{
         int inARowCount = 0;
         String emptyRowIndex = "";
         String emptyColumnIndex = "";
-        //Horizontal checking
-        for (int i = 0; i < currentBoard.getNumberInRowToWin(); i++) {
-            for (int j = 0; j < currentBoard.getNumberInRowToWin(); j++) {
-                if (currentBoard.board[i][j].equals(signToCheck)) {
-                    inARowCount++;
-                    if (inARowCount == currentBoard.getNumberInRowToWin() - 1) {
-                        if (!emptyColumnIndex.equals("")) {
-                            winningPosition = "A" + emptyRowIndex + "B" + emptyColumnIndex;
-                            return winningPosition;
-                        }
-                        if (j + 1 < currentBoard.getSize())
-                            winningPosition = "A" + (i) + "B" + (j + 1);
-                        return winningPosition;
+        boolean hasAWinner = false;
+
+        //HorizontalCheck
+        for(int i=0;i < currentBoard.getSize();i++)
+            //firstnumber is row = horizontal, second number is column = vertical
+            //since we change column for each iteration this loop checks horizontally
+            if(currentBoard.board[0][i].equals(signToCheck)){
+                int j;
+                for(j=1;j< currentBoard.getSize();j++){
+                    if (!currentBoard.board[j][i].equals(signToCheck)){
+                        break;
                     }
-                } else if (currentBoard.board[i][j].equals("_ | ")) {
-                    emptyColumnIndex = Integer.toString(j);
-                    emptyRowIndex = Integer.toString(i);
-                    inARowCount++;
-                } else if (currentBoard.board[i][j].equals(opponentSign)) {
-                    inARowCount = 0;
+                }
+                //if the inner loop has not found any opponent signs before
+                //reaching NumberInRowToWin-1, we have a winningPosition.
+                if(j == currentBoard.getSize()-1){
+                    winningPosition = "A"+(j+1)+"B"+i;
+                    return winningPosition;
                 }
             }
-        }
-        //Vertical Checking
-        for (int i = 0; i < currentBoard.getNumberInRowToWin(); i++) {
-            for (int j = 0; j < currentBoard.getNumberInRowToWin(); j++) {
-                if (currentBoard.board[j][i].equals(signToCheck)) {
-                    inARowCount++;
-                    if (inARowCount == currentBoard.getNumberInRowToWin() - 1) {
-                        if (!emptyColumnIndex.equals("")) {
-                            winningPosition = "A" + emptyRowIndex + "B" + emptyColumnIndex;
-                            return winningPosition;
-                        }
-                        if (j + 1 < currentBoard.getSize()) {
-                            winningPosition = "A" + (j + 1) + "B" + (i);
-                            return winningPosition;
-                        }
+        //Vertical check
+        for(int i=0;i < currentBoard.getSize();i++)
+            //firstNumber is row = horizontal, second number is column = vertical
+            //since we change column for each iteration this loop checks horizontally
+            if(currentBoard.board[i][0].equals(signToCheck)){
+                int j;
+                for(j=1;j< currentBoard.getSize();j++){
+                    if (!currentBoard.board[i][j].equals(signToCheck)){
+                        break;
                     }
-                } else if (currentBoard.board[j][i].equals("_ | ")) {
-                    emptyColumnIndex = Integer.toString(j);
-                    emptyRowIndex = Integer.toString(i);
-                    inARowCount++;
-                } else if (currentBoard.board[j][i].equals(opponentSign)) {
-                    inARowCount = 0;
+                }
+                //if the inner loop has not found any opponent signs before
+                //reaching NumberInRowTOWin, we have a winner.
+                if(j == currentBoard.getSize()-1){
+                    winningPosition = "A"+i+"B"+(j+1);
+                    return winningPosition;
                 }
             }
-        }
-        //diagonal checks
-        int d = 0;
-        for (d = 0; d < currentBoard.getNumberInRowToWin(); d++) {
-            if (currentBoard.board[d][d].equals("_ | ")) {
-                emptyColumnIndex = Integer.toString(d);
-                emptyRowIndex = Integer.toString(d);
-            } else if (!currentBoard.board[d][d].equals(signToCheck)) {
+        int d;
+        //Diagonal Checks
+        for(d=0;d<currentBoard.getSize();d++){
+            if(!currentBoard.board[d][d].equals(signToCheck)){
                 break;
             }
-            if (d == currentBoard.getNumberInRowToWin() - 1) {
-                if (!emptyRowIndex.equals("")) {
-                    winningPosition = "A" + emptyRowIndex + "B" + emptyColumnIndex;
-                    return winningPosition;
-                } else {
-                    if (d + 1 < currentBoard.getSize()) {
-                        winningPosition = "A" + (d + 1) + "B" + (d + 1);
-                        return winningPosition;
-                    }
-                }
+        }
+        if(d== currentBoard.getSize()-1){
+            winningPosition = "A"+(d+1)+"B"+(d+1);
+            return winningPosition;
+        }
+        //Checks reverse diagonally. Starting at top right position
+        //and then reversing one to the left and one down.
+        for(d=0;d< currentBoard.getSize();d++){
+            if(!currentBoard.board[d][(currentBoard.getSize()-1)-d].equals(signToCheck)){
+                break;
             }
         }
-        int randomRow = rnd.nextInt(currentBoard.getSize());
-        int randomColumn = rnd.nextInt(currentBoard.getSize());
-        String randomMove = "A"+randomRow+"B"+randomColumn;
-        return randomMove;
+        if(d== currentBoard.getSize()){
+            winningPosition = "A"+(d-1)+"B"+(d-1);
+            return winningPosition;
+        }
+        return "";
     }
 }

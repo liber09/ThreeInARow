@@ -27,7 +27,7 @@ public class GamePlay {
                 player1.setSign(input.nextLine().toUpperCase());
                 System.out.println("Enter player2's name: ");
                 player2.setName(input.nextLine());
-                if(player1.getSign().equals("X | ")){
+                if(player1.getSign().equals("X")){
                     player2.setSign("O");
                 }else{
                     player2.setSign("X");
@@ -45,10 +45,10 @@ public class GamePlay {
                 computer.setComputerDifficultyLevel(difficultyLevel);
                 System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
                 player1.setSign(input.nextLine().toUpperCase());
-                if(player1.getSign().equals("X | ")){
+                if(player1.getSign().equals("X")){
                     computer.setSign("O");
                 }else{
-                    computer.setSign("X | ");
+                    computer.setSign("X");
                 }
                 players.add(player1);
                 players.add(computer);
@@ -74,7 +74,7 @@ public class GamePlay {
     //Checks if the requested position is free
     //Returns true if free, false if already taken
     public static boolean isPositionFree(ExtendableGamingBoard board, int row, int column){
-        if(board.board[row][column] == "_ | "){
+        if(board.board[row][column].equals("_")){
             return true;
         }else{
             System.out.println("Position already taken,take another..");
