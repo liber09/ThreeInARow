@@ -49,8 +49,16 @@ public class GamePlay {
                     }
                 }while(difficultylevelOk == false);
                 computer.setComputerDifficultyLevel(difficultyLevel);
-                System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
-                player1.setSign(input.nextLine().toUpperCase());
+                Boolean playerSignOk = false;
+                do {
+                    System.out.println("Ok " + player1.getName() + ", lets choose sign X or O:");
+                    player1.setSign(input.nextLine().toUpperCase());
+                    if (player1.getSign().equals("X") || player1.getSign().equals("O")) {
+                        playerSignOk = true;
+                    } else {
+                        System.out.println("You have to choose a correct sign either an X or O!");
+                    }
+                }while(playerSignOk == false);
                 if(player1.getSign().equals("X")){
                     computer.setSign("O");
                 }else{
@@ -132,7 +140,8 @@ public class GamePlay {
         currentPlayer = null;
         chosenPosition = "";
         hasAWinner = false;
-        Winner.numberOfRoundsPlayed = 0;
+        players.get(0).setMatchesPlayed(0);
+        players.get(1).setMatchesPlayed(0);
     }
 
     //Clears the playerlist so it is possilble to start all over witout restarting

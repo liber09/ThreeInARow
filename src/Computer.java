@@ -87,7 +87,7 @@ public class Computer extends Player {
         } else {
             for (int i = 0; i < currentBoard.getSize(); i++) {
                 for (int j = 0; j < currentBoard.getSize(); j++) {
-                    if (currentBoard.board[i][j].equals(this.sign)) {
+                    if (currentBoard.board[i][j].equals(this.getSign())) {
                         if ((j + 1) < currentBoard.getSize() && currentBoard.board[i][(j + 1)].equals("_")) {
                             nextToSelfPosition = "A" + i + "B" + (j + 1);
                         } else if ((i + 1) < currentBoard.getSize() && currentBoard.board[(i + 1)][(j)].equals("_")) {
@@ -263,7 +263,7 @@ public class Computer extends Player {
                 if (currentBoard.board[i][j].equals("_"))
                 {
                     // Make the move
-                    currentBoard.board[i][j] = this.sign;
+                    currentBoard.board[i][j] = this.getSign();
                     // compute evaluation function for this
                     // move.
                     int moveVal = minimax(currentBoard, 0, false,opponentSign);
@@ -308,7 +308,7 @@ public class Computer extends Player {
                 if (currentBoard.board[row][col] == currentBoard.board[row][col] &&
                         currentBoard.board[row][col] == currentBoard.board[row][col])
                 {
-                    if (currentBoard.board[row][col].equals(this.sign)
+                    if (currentBoard.board[row][col].equals(this.getSign())
                     )
                         return +10;
                     else if (currentBoard.board[row][col].equals(opponentSign))
@@ -323,7 +323,7 @@ public class Computer extends Player {
                 if (currentBoard.board[row][col] == currentBoard.board[row][col] &&
                         currentBoard.board[row][col] == currentBoard.board[row][col])
                 {
-                    if (currentBoard.board[row][col].equals(this.sign))
+                    if (currentBoard.board[row][col].equals(this.getSign()))
                         return +10;
 
                     else if (currentBoard.board[row][col].equals(opponentSign))
@@ -337,7 +337,7 @@ public class Computer extends Player {
             if (i+1<currentBoard.getSize()-1){
                 if (currentBoard.board[i][i] == currentBoard.board[i+1][i+1] && currentBoard.board[1][1] == currentBoard.board[2][2])
                 {
-                    if (currentBoard.board[i][i].equals(this.sign))
+                    if (currentBoard.board[i][i].equals(this.getSign()))
                         return +10;
                     else if (currentBoard.board[i][i].equals(opponentSign))
                         return -10;
@@ -346,7 +346,7 @@ public class Computer extends Player {
                 if(i+2<currentBoard.getSize()-1){
                     if (currentBoard.board[i][i+2] == currentBoard.board[i+1][i+1] && currentBoard.board[1][1] == currentBoard.board[2][0])
                     {
-                        if (currentBoard.board[i][i+2].equals(this.sign))
+                        if (currentBoard.board[i][i+2].equals(this.getSign()))
                             return +10;
                         else if (currentBoard.board[i][i+2].equals(opponentSign))
                             return -10;
@@ -389,7 +389,7 @@ public class Computer extends Player {
                     if (currentBoard.board[i][j].equals("_"))
                     {
                         // Make the move
-                        currentBoard.board[i][j] = this.sign;
+                        currentBoard.board[i][j] = this.getSign();
 
                         // Call minimax recursively and choose
                         // the maximum value

@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class Winner {
-    static int numberOfRoundsPlayed = 0;
     public static boolean gameHasAWinner(ExtendableGamingBoard currentBoard, Player currentPlayer, ArrayList<Player> players){
         boolean hasAWinner = false;
         int score = 0;
@@ -56,6 +55,13 @@ public class Winner {
         }
         //Checks reverse diagonally. Starting at top right position
         //and then reversing one to the left and one down.
+        if (currentBoard.getSize() == 3){
+            if(currentBoard.board[0][2].equals(currentPlayer.getSign()) &&
+                            (currentBoard.board[1][1].equals(currentPlayer.getSign())) &&
+                            (currentBoard.board[2][0].equals(currentPlayer.getSign()))){
+                hasAWinner = true;
+            }
+        }
         for(d=0;d< currentBoard.getSize();d++){
             if(currentBoard.board[d][d].equals(currentPlayer.getSign())){
                 score++;
@@ -81,10 +87,10 @@ public class Winner {
             System.out.println("This game was a tie!");
         }
         if(hasAWinner || draw){
-            numberOfRoundsPlayed++;
+            players.get(0).addMatchesPlayed();
             ArrayList<String> print = new ArrayList<>();
-            int tieRounds = numberOfRoundsPlayed-players.get(0).getNumberOfWins()-players.get(1).getNumberOfWins();
-            print.add("Results after " + numberOfRoundsPlayed + " played rounds\n" + players.get(0).getName() + "\t" + players.get(1).getName()+ "\n"+
+            int tieRounds = players.get(0).getMatchesPlayed()-players.get(0).getNumberOfWins()-players.get(1).getNumberOfWins();
+            print.add("Results after " + players.get(0).getMatchesPlayed() + " played rounds\n" + players.get(0).getName() + "\t" + players.get(1).getName()+ "\n"+
             "  " + players.get(0).getNumberOfWins() + "        " + players.get(1).getNumberOfWins()+"\n"+
             "Number of rounds that has ended in a tie: "+tieRounds);
             System.out.println(print);

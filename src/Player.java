@@ -1,7 +1,8 @@
 public class Player {
-    String name = "";
-    String sign = " ";
-    int numberOfWins = 0;
+    private String name = "";
+    private String sign = " ";
+    private int numberOfWins = 0;
+    private int matchesPlayed = 0;
 
     //Set name of player
     public void setName(String name){
@@ -11,7 +12,18 @@ public class Player {
     public String getName() {
         return this.name;
     }
-        //Set players sign
+
+    public int getMatchesPlayed() {
+        return matchesPlayed;
+    }
+    public void addMatchesPlayed() {
+        this.matchesPlayed++;
+    }
+    public void setMatchesPlayed(int matchesPlayed) {
+        this.matchesPlayed = matchesPlayed;
+    }
+
+    //Set players sign
     public void setSign(String sign){
         this.sign = sign;
         }
