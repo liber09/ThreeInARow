@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 public class ExtendableGamingBoard implements IGamingBoard{
     String[][] board;
     private int size = 0;
@@ -26,7 +25,6 @@ public class ExtendableGamingBoard implements IGamingBoard{
         }
         return board;
     }
-
     public void printBoard(){
         for(int i=0; i<size;i++){
             if (i == 0) {
@@ -40,7 +38,6 @@ public class ExtendableGamingBoard implements IGamingBoard{
             } else{
                 System.out.print("  B"+i);
             }
-
     }
         for(int j=0;j<size;j++) {
             System.out.print("A"+j+" ");
@@ -49,38 +46,6 @@ public class ExtendableGamingBoard implements IGamingBoard{
             }
             System.out.println();
         }
-
-
-    }
-
-    @Override
-    public boolean isPositionFree(int row, int column) {
-        return false;
-    }
-
-    @Override
-    public void setPlayers() {
-
-    }
-
-    @Override
-    public Player nextPlayer() {
-        return null;
-    }
-
-    @Override
-    public void Play() {
-
-    }
-
-    @Override
-    public void resetGame() {
-
-    }
-
-    @Override
-    public void resetPlayers() {
-
     }
     //Returns the boardsize
     public int getSize(){
@@ -89,5 +54,4 @@ public class ExtendableGamingBoard implements IGamingBoard{
     public int getNumberInRowToWin(){
         return this.numberInRowToWin;
     }
-
 }

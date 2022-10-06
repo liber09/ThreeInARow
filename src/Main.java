@@ -7,24 +7,28 @@ public class Main {
         GamePlay.setPlayers();
         gamingBoard.printBoard();
         do{
-            GamePlay.play((ExtendableGamingBoard)gamingBoard);
-            GamePlay.resetGame((ExtendableGamingBoard)gamingBoard);
-            System.out.println("Do you want to play again?\nY.Yes\nN.No");
-            continueGame = input.nextLine();
-            if (continueGame.equalsIgnoreCase("n")){
-                System.out.println("Do you want to reset game results and start all over?\nY.Yes\nN.No");
-                String resetGame = input.nextLine();
-                if(resetGame.equalsIgnoreCase("n")){
-                    System.out.println("Okay, so you don't want to reset, do you want to play again?\nY.Yes\nN.No");
-                    continueGame = input.nextLine();
+            try{
+                GamePlay.play((ExtendableGamingBoard)gamingBoard);
+                GamePlay.resetGame((ExtendableGamingBoard)gamingBoard);
+                System.out.println("Do you want to play again?\nY.Yes\nN.No");
+                continueGame = input.nextLine();
+                if (continueGame.equalsIgnoreCase("n")){
+                    System.out.println("Do you want to reset game results and start all over?\nY.Yes\nN.No");
+                    String resetGame = input.nextLine();
+                    if(resetGame.equalsIgnoreCase("n")){
+                        System.out.println("Okay, so you don't want to reset, do you want to play again?\nY.Yes\nN.No");
+                        continueGame = input.nextLine();
+                    }
+                    if(resetGame.equalsIgnoreCase("y")){
+                        GamePlay.resetPlayers();
+                        GamePlay.setPlayers();
+                        continueGame = "y";
+                    }
                 }
-                if(resetGame.equalsIgnoreCase("y")){
-                    GamePlay.resetPlayers();
-                    GamePlay.setPlayers();
-                    continueGame = "y";
-                }
+                gamingBoard.printBoard();
+            }catch(Exception e){
+                System.out.println("Something went wrong, please try again!");
             }
-            gamingBoard.printBoard();
         }while(continueGame.equalsIgnoreCase("y"));
 
     }

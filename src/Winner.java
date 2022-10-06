@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Winner {
     static int numberOfRoundsPlayed = 0;
-    public static boolean gameHasAWinner(ExtendableGamingBoard currentBoard, Player currentPlayer, ArrayList<Player> players, int playedTurns){
+    public static boolean gameHasAWinner(ExtendableGamingBoard currentBoard, Player currentPlayer, ArrayList<Player> players){
         boolean hasAWinner = false;
         int score = 0;
         //HorizontalCheck
@@ -21,6 +21,7 @@ public class Winner {
                     score = 0;
                 }
             }
+            score=0;
         }
 
         //Vertical check
@@ -40,6 +41,7 @@ public class Winner {
                 }
 
             }
+            score=0;
         }
 
         int d;
@@ -55,11 +57,13 @@ public class Winner {
         //Checks reverse diagonally. Starting at top right position
         //and then reversing one to the left and one down.
         for(d=0;d< currentBoard.getSize();d++){
-            if(!currentBoard.board[d][(currentBoard.getSize()-1)-d].equals(currentPlayer.getSign())){
-                break;
+            if(currentBoard.board[d][d].equals(currentPlayer.getSign())){
+                score++;
+            }else{
+                score = 0;
             }
         }
-        if(d == currentBoard.getNumberInRowToWin()){
+        if(score == currentBoard.getNumberInRowToWin()){
             hasAWinner = true;
         }
         if(hasAWinner){

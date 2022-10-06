@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class GamePlay {
-    private static Scanner input = new Scanner(System.in);
-    private static ArrayList<Player> players = new ArrayList<Player>();
+    private static final Scanner input = new Scanner(System.in);
+    private static final ArrayList<Player> players = new ArrayList<>();
     private static boolean positionFree = true;
     private static Player currentPlayer;
     private static int playedTurns = 0;
@@ -16,6 +16,7 @@ public class GamePlay {
         System.out.println("Want to play with:\n1.friend\nor\n2.computer?");
         try{
             int opponent = input.nextInt();
+            int difficultyLevel = 0;
             input.nextLine();
             Player player1 = new Player();
             if(opponent == 1){
@@ -34,13 +35,19 @@ public class GamePlay {
                 players.add(player1);
                 players.add(player2);
             }else{
+                Boolean difficultylevelOk = false;
                 Computer computer = new Computer();
                 System.out.println("Enter player1's name:");
                 player1.setName(input.nextLine());
                 computer.setName("Computer");
-                System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
-                int difficultyLevel = input.nextInt();
-                input.nextLine();
+                do{
+                    System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
+                    difficultyLevel = input.nextInt();
+                    input.nextLine();
+                    if (difficultyLevel == 1 || difficultyLevel ==  2  || difficultyLevel == 3){
+                        difficultylevelOk = true;
+                    }
+                }while(difficultylevelOk == false);
                 computer.setComputerDifficultyLevel(difficultyLevel);
                 System.out.println("Ok "+player1.getName()+", lets choose sign X or O:");
                 player1.setSign(input.nextLine().toUpperCase());
@@ -109,7 +116,7 @@ public class GamePlay {
                     }
                 }
                 if (playedTurns > 4){
-                    hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players,playedTurns);
+                    hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players);
                 }
             }catch(Exception e){
                 System.out.println("You have to enter position in correct format, ex A1B2. Please try again!");
@@ -125,6 +132,7 @@ public class GamePlay {
         currentPlayer = null;
         chosenPosition = "";
         hasAWinner = false;
+        Winner.numberOfRoundsPlayed = 0;
     }
 
     //Clears the playerlist so it is possilble to start all over witout restarting
