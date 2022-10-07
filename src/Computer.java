@@ -44,11 +44,11 @@ public class Computer extends Player {
      */
     public String ComputerTurn(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign) {
         if (getComputerDifficultyLevel() == 1) {
-            return "A" + rnd.nextInt((currentBoard.getSize()+1)) + "B" + rnd.nextInt((currentBoard.getSize()+1));
+            return "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
         }
         if (getComputerDifficultyLevel() == 2) {
             if (getLastSelectedPosition().equals("")) {
-                String randomPosition = "A" + rnd.nextInt((currentBoard.getSize()+1)) + "B" + rnd.nextInt((currentBoard.getSize()+1));
+                String randomPosition = "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
                 return randomPosition;
             }
             return bestComputerMoveLev2(getLastSelectedPosition(), currentBoard, playedTurns, opponentSign);
@@ -77,7 +77,7 @@ public class Computer extends Player {
                         } else if ((i + 1) < currentBoard.getSize() && (j + 1) < currentBoard.getSize() && currentBoard.board[(i + 1)][(j + 1)].equals("_")) {
                             nextToOpponentPosition = "A" + (i + 1) + "B" + (j + 1);
                         } else {
-                            nextToOpponentPosition = "A" + rnd.nextInt((currentBoard.getSize()+1)) + "B" + rnd.nextInt((currentBoard.getSize()+1));
+                            nextToOpponentPosition = "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
                         }
 
                     }
@@ -114,13 +114,12 @@ public class Computer extends Player {
     private String bestComputersMoveLev3(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign) {
         if (currentBoard.getSize() == 3) {
             String bestMove = classicBoardBestMove(currentBoard, opponentSign);
-            if (bestMove.equals("")){
-                return "A"+(rnd.nextInt(4))+"B"+(rnd.nextInt(4));
+            if (bestMove.equals("")) {
+                return "A" + (rnd.nextInt(4)) + "B" + (rnd.nextInt(4));
             }
             return bestMove;
-        } else {
-            return level3ComputerTryingToBlock(currentBoard, opponentSign, playedTurns);
         }
+        return "A" + (rnd.nextInt(4)) + "B" + (rnd.nextInt(4));
     }
 
     private String classicBoardBestMove(ExtendableGamingBoard currentBoard, String opponentSign) {
@@ -294,133 +293,4 @@ public class Computer extends Player {
         }
         return positionToBlock;
     }
-
-    private String level3ComputerTryingToBlock(ExtendableGamingBoard currentBoard, String opponentSign, int playedTurns) {
-        String positionToBlock = "";
-        int score = 0;
-        if (playedTurns <= 2) {
-            //Should first try to take center position otherwise close to center
-            int middlePosition = currentBoard.getSize() / 2;
-            if (currentBoard.board[middlePosition][middlePosition].equals("_")) {
-                return "A" + middlePosition + "B" + middlePosition;
-            } else {
-                int row = rnd.nextInt(2);
-                int column = rnd.nextInt(2);
-                return "A" + row + "B" + column;
-            }
-        }
-        //HorizontalCheck
-        //firstNumber is row = horizontal, second number is column = vertical
-        //since we change column for each iteration this loop checks horizontally
-        for (int i = 0; i < currentBoard.getSize(); i++) {
-            for (int j = 0; j < currentBoard.getSize(); j++) {
-                //if the inner loop has not found any opponent signs before
-                //reaching NumberInRowToWin, we have a winner.
-                if (currentBoard.board[i][j].equals(opponentSign)) {
-                    score++;
-                    if (score == currentBoard.getNumberInRowToWin() - 2) {
-                        if (j + 1 <= currentBoard.getSize() - 1) {
-                            positionToBlock = "A" + i + "B" + (j + 1);
-                            if (triedPositions.contains(positionToBlock)) {
-                                positionToBlock = "";
-                            } else {
-                                triedPositions.add(positionToBlock);
-                            }
-                        }
-                    }
-                } else {
-                    score = 0;
-                }
-            }
-            score = 0;
-        }
-
-        //Vertical check
-        //firstNumber is row = horizontal, second number is column = vertical
-        //since we change column for each iteration this loop checks vertically
-        for (int i = 0; i < currentBoard.getSize(); i++) {
-            for (int j = 0; j < currentBoard.getSize(); j++) {
-                if (currentBoard.board[j][i].equals(opponentSign)) {
-                    score++;
-                    //if the inner loop has not found any opponent signs before
-                    //reaching NumberInRowTOWin, we have a winner.
-                    if (score == currentBoard.getNumberInRowToWin() - 2) {
-                        if ((j + 1) < currentBoard.getSize() - 1) {
-                            positionToBlock = "A" + (j + 1) + "B" + i;
-                            if (triedPositions.contains(positionToBlock)) {
-                                positionToBlock = "";
-                            } else {
-                                triedPositions.add(positionToBlock);
-                            }
-                        }
-                    }
-                } else {
-                    score = 0;
-                }
-
-            }
-            score = 0;
-        }
-
-        int d;
-        //Diagonal Checks
-        for (d = 0; d < currentBoard.getSize(); d++) {
-            if (!currentBoard.board[d][d].equals(opponentSign)) {
-                break;
-            }
-        }
-        if (d == currentBoard.getNumberInRowToWin() - 2) {
-            positionToBlock = "A" + (d + 1) + "B" + (d + 1);
-            if (triedPositions.contains(positionToBlock)) {
-                positionToBlock = "";
-            } else {
-                triedPositions.add(positionToBlock);
-            }
-        }
-        /*
-            Checks reverse diagonally. Starting at top left corner iterating one
-            row at the time. When we find an opponent sign, we check if there is another one
-            at row+1,column-1 and if so computer try to block by placing a
-            sign at row+2 and column-2. Also we store each block attempt in a
-            list and check each new block attempt towards that list. If the next block
-            attempt has already been checked then it is discarded next time
-            so we can find new positions to block.
-         */
-
-        for (int i = 0; 0 < currentBoard.getSize(); i++) {
-            if(positionToBlock != ""){
-                break;
-            }
-            for (int j = 0; j < currentBoard.getSize(); j++) {
-                if (currentBoard.board[i][j].equals(opponentSign)) {
-                    if (i + 1 > 0 && j - 1 < currentBoard.getSize() - 1) {
-                        if (currentBoard.board[i + 1][j - 1].equals(opponentSign)) {
-                            if (i + 2 > 0 && j - 2 < currentBoard.getSize() - 1) {
-                                positionToBlock = "A" + (i+2) + "B" + (j - 2);
-                                if (triedPositions.contains(positionToBlock)) {
-                                    positionToBlock = "";
-                                } else {
-                                    triedPositions.add(positionToBlock);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-            if (positionToBlock != "") {
-                return positionToBlock;
-            } else {
-                positionToBlock = "A" + rnd.nextInt((currentBoard.getSize() +1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
-                triedPositions.add(positionToBlock);
-                return positionToBlock;
-            }
-        }
-
-
-
-
-
-
-
 }

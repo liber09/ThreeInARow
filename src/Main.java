@@ -4,7 +4,7 @@ public class Main {
     private static String continueGame = "";
     public static void main(String[] args) {
         IGamingBoard gamingBoard = Menu.printStartMenu();
-        GamePlay.setPlayers();
+        GamePlay.setPlayers((ExtendableGamingBoard)gamingBoard);
         gamingBoard.printBoard();
         do{
             try{
@@ -37,7 +37,7 @@ public class Main {
                     }
                     if(resetGame.equalsIgnoreCase("y")){
                         GamePlay.resetPlayers();
-                        GamePlay.setPlayers();
+                        GamePlay.setPlayers((ExtendableGamingBoard)gamingBoard);
                         continueGame = "y";
                     }
                 }

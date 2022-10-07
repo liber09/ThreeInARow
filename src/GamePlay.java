@@ -19,7 +19,7 @@ public class GamePlay {
         Creates players, asking user if playing against
         friend or computer
      */
-    public static void setPlayers(){
+    public static void setPlayers(ExtendableGamingBoard gamingBoard){
         System.out.println("Want to play with:\n1.friend\nor\n2.computer?");
         try{
             int opponent = input.nextInt();
@@ -48,9 +48,17 @@ public class GamePlay {
                 player1.setName(input.nextLine());
                 computer.setName("Computer");
                 do{
-                    System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
+                    if (gamingBoard.getSize() == 3) {
+                        System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
+                    }else{
+                        System.out.println("Select computer difficulty level.\n1.Easy\n2.Hard");
+                    }
                     difficultyLevel = input.nextInt();
                     input.nextLine();
+                    if (difficultyLevel >2 && gamingBoard.getSize() >3){
+                        System.out.println("You have to choose either 1 or 2.");
+                        continue;
+                    }
                     if (difficultyLevel == 1 || difficultyLevel ==  2  || difficultyLevel == 3){
                         difficultylevelOk = true;
                     }
@@ -79,7 +87,7 @@ public class GamePlay {
         catch(Exception e){
             System.out.println("Wrong input, try again");
             input.nextLine();
-            setPlayers();
+            setPlayers(gamingBoard);
         }
     }
     //Changes player

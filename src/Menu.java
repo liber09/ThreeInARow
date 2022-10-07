@@ -19,7 +19,11 @@ public class Menu {
                         int boardSize = input.nextInt();
                         if(boardSize >3 ){
                             System.out.println("Your board is "+boardSize+ ", you need to enter at least 4. How many signs in a row to win?");
-                        }else{
+                        }else if(boardSize <3){
+                            System.out.println("You have to enter a boardsize of at least 3!");
+                            continue;
+                        }
+                        else{
                             System.out.println("How many signs in a row to win?");
                         }
                         int numberInRowToWin = input.nextInt();
