@@ -2,21 +2,28 @@ import java.util.Scanner;
 public class Menu {
     static Scanner input = new Scanner(System.in);
     public static IGamingBoard printStartMenu(){
-        int userMenuChoice = 0;
+        String userMenuChoice = "0";
         Boolean leaveMenu = false;
         IGamingBoard gamingBoard = new ExtendableGamingBoard(3,3);
         WelcomePhrase();
             try{
                 do{
                     System.out.println("What do you want to play?\n1.Classic Tic-Tac-Toe\n2.Advanced Tic-Tac-Toe");
-                    userMenuChoice = input.nextInt();
-                    input.nextLine();
-                    if(userMenuChoice == 1){
+                    userMenuChoice = input.nextLine();
+                    if(userMenuChoice.equals("1")){
                         gamingBoard = new ExtendableGamingBoard(3,3);
                         leaveMenu = true;
-                    }else if(userMenuChoice == 2){
+                    }else if(userMenuChoice.equals("2")){
                         System.out.println("What board size (number of cells) would you like to play with (min 3)?");
-                        int boardSize = input.nextInt();
+                        int boardSize = 0;
+                        String tempBoardSize = input.nextLine();
+                        boolean isNumber = isNumber(tempBoardSize);
+                        if (!isNumber){
+                            System.out.println("You have to enter boardsize in numbers above 3.");
+                            continue;
+                        }else{
+                            boardSize = Integer.parseInt(tempBoardSize);
+                        }
                         if(boardSize >3 ){
                             System.out.println("Your board is "+boardSize+ ", you need to enter at least 4. How many signs in a row to win?");
                         }else if(boardSize <3){
@@ -26,8 +33,14 @@ public class Menu {
                         else{
                             System.out.println("How many signs in a row to win?");
                         }
-                        int numberInRowToWin = input.nextInt();
-                        input.nextLine();
+                        int numberInRowToWin = 0;
+                        String tempWinNumber = input.nextLine();
+                        if(!isNumber(tempWinNumber)){
+                            System.out.println("You have to select a number over 3 or 4 depending on chosen boardsize. Try again.");
+                            continue;
+                        }else{
+                            numberInRowToWin = Integer.parseInt(tempWinNumber);
+                        }
                         if(boardSize >3 && numberInRowToWin >= 4){
                             gamingBoard = new ExtendableGamingBoard(boardSize,numberInRowToWin);
                             leaveMenu = true;
@@ -45,6 +58,16 @@ public class Menu {
                 System.out.println("You have to make a correct choice of 1 or 2. Try again");
             }
         return gamingBoard;
+    }
+
+    private static boolean isNumber(String numberString) {
+        try{
+            Integer.parseInt(numberString);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+
     }
 
     private static void WelcomePhrase() {

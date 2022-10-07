@@ -27,60 +27,95 @@ public class GamePlay {
             input.nextLine();
             Player player1 = new Player();
             if(opponent == 1){
-                Player player2 = new Player();
-                System.out.println("Enter player1's name: ");
-                player1.setName(input.nextLine());
-                System.out.println("Ok "+player1.getName()+", lets choose a sign X or O?");
-                player1.setSign(input.nextLine().toUpperCase());
-                System.out.println("Enter player2's name: ");
-                player2.setName(input.nextLine());
-                if(player1.getSign().equals("X")){
-                    player2.setSign("O");
-                }else{
-                    player2.setSign("X");
-                }
-                players.add(player1);
-                players.add(player2);
-            }else{
-                Boolean difficultylevelOk = false;
-                Computer computer = new Computer();
-                System.out.println("Enter player1's name:");
-                player1.setName(input.nextLine());
-                computer.setName("Computer");
+                boolean playerInfoOk = false;
                 do{
-                    if (gamingBoard.getSize() == 3) {
-                        System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
-                    }else{
-                        System.out.println("Select computer difficulty level.\n1.Easy\n2.Hard");
-                    }
-                    difficultyLevel = input.nextInt();
-                    input.nextLine();
-                    if (difficultyLevel >2 && gamingBoard.getSize() >3){
-                        System.out.println("You have to choose either 1 or 2.");
+                    Player player2 = new Player();
+                    System.out.println("Enter player1's name: ");
+                    String tempInput = input.nextLine();
+                    if (tempInput.equals("")){
+                        System.out.println("You have to enter a name!");
                         continue;
                     }
-                    if (difficultyLevel == 1 || difficultyLevel ==  2  || difficultyLevel == 3){
-                        difficultylevelOk = true;
+                    player1.setName(tempInput);
+                    System.out.println("Ok "+player1.getName()+", lets choose a sign X or O?");
+                    tempInput = input.nextLine().toUpperCase();
+                    player1.setSign(tempInput);
+                    if (player1.getSign().equals("X") || player1.getSign().equals("O")){
+                        //This is correct, do nothing. Only way to get it to accept input even if x or o
+                    }else{
+                        System.out.println("You have to choose X or O");
+                        continue;
                     }
-                }while(difficultylevelOk == false);
-                computer.setComputerDifficultyLevel(difficultyLevel);
-                Boolean playerSignOk = false;
+                    System.out.println("Enter player2's name: ");
+                    tempInput = input.nextLine();
+                    if(tempInput.equals("")){
+                        System.out.println("You have to enter a name!");
+                        continue;
+                    }
+                    player2.setName(tempInput);
+                    if(player1.getSign().equals("X")){
+                        player2.setSign("O");
+                    }else{
+                        player2.setSign("X");
+                    }
+                    players.add(player1);
+                    players.add(player2);
+                    playerInfoOk = true;
+                }while(!playerInfoOk);
+            }else if(opponent==2){
+                boolean playerInfoCpuOk = false;
+                Computer computer = new Computer();
                 do {
-                    System.out.println("Ok " + player1.getName() + ", lets choose sign X or O:");
-                    player1.setSign(input.nextLine().toUpperCase());
-                    if (player1.getSign().equals("X") || player1.getSign().equals("O")) {
-                        playerSignOk = true;
-                    } else {
-                        System.out.println("You have to choose a correct sign either an X or O!");
+                    boolean difficultylevelOk = false;
+                    System.out.println("Enter player1's name:");
+                    String tempName = input.nextLine();
+                    if(tempName.equalsIgnoreCase("")){
+                        System.out.println("You have to enter a name.");
+                        continue;
+                    }else{
+                        player1.setName(tempName);
                     }
-                }while(playerSignOk == false);
-                if(player1.getSign().equals("X")){
-                    computer.setSign("O");
-                }else{
-                    computer.setSign("X");
-                }
+                    computer.setName("Computer");
+                    do{
+                        if (gamingBoard.getSize() == 3) {
+                            System.out.println("Select computer difficulty level.\n1.Easy\n2.Medium\n3.Hard");
+                        }else{
+                            System.out.println("Select computer difficulty level.\n1.Easy\n2.Hard");
+                        }
+                        difficultyLevel = input.nextInt();
+                        input.nextLine();
+                        if (difficultyLevel >2 && gamingBoard.getSize() >3){
+                            System.out.println("You have to choose either 1 or 2.");
+                            continue;
+                        }
+                        if (difficultyLevel == 1 || difficultyLevel ==  2  || difficultyLevel == 3){
+                            difficultylevelOk = true;
+                        }
+                    }while(difficultylevelOk == false);
+                    computer.setComputerDifficultyLevel(difficultyLevel);
+                    Boolean playerSignOk = false;
+                    do {
+                        System.out.println("Ok " + player1.getName() + ", lets choose sign X or O:");
+                        player1.setSign(input.nextLine().toUpperCase());
+                        if (player1.getSign().equals("X") || player1.getSign().equals("O")) {
+                            playerSignOk = true;
+                        } else {
+                            System.out.println("You have to choose a correct sign either an X or O!");
+                        }
+                    }while(playerSignOk == false);
+                    if(player1.getSign().equals("X")){
+                        computer.setSign("O");
+                    }else{
+                        computer.setSign("X");
+                    }
+                    playerInfoCpuOk = true;
+                }while(!playerInfoCpuOk);
+
                 players.add(player1);
                 players.add(computer);
+            }else{
+                System.out.println("You have to choose either 1 or 2. Please try again.");
+                setPlayers(gamingBoard);
             }
         }
         //Handles exception prints message to user
