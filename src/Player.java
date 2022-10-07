@@ -13,16 +13,6 @@ public class Player {
         return this.name;
     }
 
-    public int getMatchesPlayed() {
-        return matchesPlayed;
-    }
-    public void addMatchesPlayed() {
-        this.matchesPlayed++;
-    }
-    public void setMatchesPlayed(int matchesPlayed) {
-        this.matchesPlayed = matchesPlayed;
-    }
-
     //Set players sign
     public void setSign(String sign){
         this.sign = sign;

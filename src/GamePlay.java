@@ -5,9 +5,16 @@ public class GamePlay {
     private static final ArrayList<Player> players = new ArrayList<>();
     private static boolean positionFree = true;
     private static Player currentPlayer;
+    private static int numberOfMatches = 0;
     private static int playedTurns = 0;
     private static String chosenPosition;
     private static Boolean hasAWinner = false;
+    public static void increaseMatchCount(){
+        numberOfMatches++;
+    }
+    public static int getNumberOfMatches(){
+        return numberOfMatches;
+    }
     /*
         Creates players, asking user if playing against
         friend or computer
@@ -140,8 +147,6 @@ public class GamePlay {
         currentPlayer = null;
         chosenPosition = "";
         hasAWinner = false;
-        players.get(0).setMatchesPlayed(0);
-        players.get(1).setMatchesPlayed(0);
     }
 
     //Clears the playerlist so it is possilble to start all over witout restarting

@@ -72,25 +72,26 @@ public class Winner {
         if(score == currentBoard.getNumberInRowToWin()){
             hasAWinner = true;
         }
+        Boolean draw = false;
         if(hasAWinner){
-            currentPlayer.addNumberOfWins();
-            if(currentPlayer.getName().equals("Computer")){
+            draw = isGameDraw(currentBoard);
+            GamePlay.increaseMatchCount();
+            if(draw){
+                System.out.println("This game was a tie!");
+            }else if(currentPlayer.getName().equals("Computer")){
                 System.out.println("Sorry but the computer won this game!");
+                players.get(1).addNumberOfWins();
             }else{
                 System.out.println("Congratulations " + currentPlayer.getName() + " you won the game!");
+                players.get(0).addNumberOfWins();
             }
         }
 
 
-        Boolean draw = isGameDraw(currentBoard);
-        if(draw){
-            System.out.println("This game was a tie!");
-        }
         if(hasAWinner || draw){
-            players.get(0).addMatchesPlayed();
             ArrayList<String> print = new ArrayList<>();
-            int tieRounds = players.get(0).getMatchesPlayed()-players.get(0).getNumberOfWins()-players.get(1).getNumberOfWins();
-            print.add("Results after " + players.get(0).getMatchesPlayed() + " played rounds\n" + players.get(0).getName() + "\t" + players.get(1).getName()+ "\n"+
+            int tieRounds = GamePlay.getNumberOfMatches()-players.get(0).getNumberOfWins()-players.get(1).getNumberOfWins();
+            print.add("Results after " + GamePlay.getNumberOfMatches() + " played rounds\n" + players.get(0).getName() + "\t" + players.get(1).getName()+ "\n"+
             "  " + players.get(0).getNumberOfWins() + "        " + players.get(1).getNumberOfWins()+"\n"+
             "Number of rounds that has ended in a tie: "+tieRounds);
             System.out.println(print);
