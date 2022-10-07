@@ -1,12 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
-
 public class Computer extends Player {
     private int computerDifficultyLevel;
     private String lastSelectedPosition = "";
-    private Random rnd = new Random();
-    private int bestCol = 0;
-    private int bestRow = 0;
+    private final Random RND = new Random();
     private ArrayList<String> triedPositions = new ArrayList<String>();
 
     public Computer() {
@@ -16,11 +13,9 @@ public class Computer extends Player {
     public void setComputerDifficultyLevel(int difficultyLevel) {
         this.computerDifficultyLevel = difficultyLevel;
     }
-
     public int getComputerDifficultyLevel() {
         return computerDifficultyLevel;
     }
-
     /*
         when computer is successful with a move we store that number here
         and clear the list of numbers the computer has attempted this turn
@@ -44,11 +39,11 @@ public class Computer extends Player {
      */
     public String ComputerTurn(ExtendableGamingBoard currentBoard, int playedTurns, String opponentSign) {
         if (getComputerDifficultyLevel() == 1) {
-            return "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
+            return "A" + RND.nextInt((currentBoard.getSize() + 1)) + "B" + RND.nextInt((currentBoard.getSize() + 1));
         }
         if (getComputerDifficultyLevel() == 2) {
             if (getLastSelectedPosition().equals("")) {
-                String randomPosition = "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
+                String randomPosition = "A" + RND.nextInt((currentBoard.getSize() + 1)) + "B" + RND.nextInt((currentBoard.getSize() + 1));
                 return randomPosition;
             }
             return bestComputerMoveLev2(getLastSelectedPosition(), currentBoard, playedTurns, opponentSign);
@@ -77,7 +72,7 @@ public class Computer extends Player {
                         } else if ((i + 1) < currentBoard.getSize() && (j + 1) < currentBoard.getSize() && currentBoard.board[(i + 1)][(j + 1)].equals("_")) {
                             nextToOpponentPosition = "A" + (i + 1) + "B" + (j + 1);
                         } else {
-                            nextToOpponentPosition = "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
+                            nextToOpponentPosition = "A" + RND.nextInt((currentBoard.getSize() + 1)) + "B" + RND.nextInt((currentBoard.getSize() + 1));
                         }
 
                     }
@@ -95,7 +90,7 @@ public class Computer extends Player {
                         } else if ((i + 1) < currentBoard.getSize() && (j + 1) < currentBoard.getSize() && currentBoard.board[(i + 1)][(j + 1)].equals("_")) {
                             nextToSelfPosition = "A" + (i + 1) + "B" + (j + 1);
                         } else {
-                            nextToSelfPosition = "A" + rnd.nextInt((currentBoard.getSize() + 1)) + "B" + rnd.nextInt((currentBoard.getSize() + 1));
+                            nextToSelfPosition = "A" + RND.nextInt((currentBoard.getSize() + 1)) + "B" + RND.nextInt((currentBoard.getSize() + 1));
                         }
 
                     }
@@ -115,11 +110,11 @@ public class Computer extends Player {
         if (currentBoard.getSize() == 3) {
             String bestMove = classicBoardBestMove(currentBoard, opponentSign);
             if (bestMove.equals("")) {
-                return "A" + (rnd.nextInt(4)) + "B" + (rnd.nextInt(4));
+                return "A" + (RND.nextInt(4)) + "B" + (RND.nextInt(4));
             }
             return bestMove;
         }
-        return "A" + (rnd.nextInt(4)) + "B" + (rnd.nextInt(4));
+        return "A" + (RND.nextInt(4)) + "B" + (RND.nextInt(4));
     }
 
     private String classicBoardBestMove(ExtendableGamingBoard currentBoard, String opponentSign) {
@@ -129,7 +124,7 @@ public class Computer extends Player {
             triedPositions.add(positionToBlock);
             return positionToBlock;
         }
-        //Rad1
+        //row1
         if(currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[0][1].equals(opponentSign))){
             positionToBlock = "A0B2";
             if(currentBoard.board[0][2].equals("_")){
@@ -149,7 +144,7 @@ public class Computer extends Player {
             }
         }
 
-        //Rad2
+        //row2
         if(currentBoard.board[1][0].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
             positionToBlock = "A1B2";
             if(triedPositions.contains(positionToBlock)){
@@ -162,133 +157,133 @@ public class Computer extends Player {
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[2][1].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
+        if (currentBoard.board[2][1].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
             positionToBlock = "A2B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        //rad3
-        if(currentBoard.board[2][0].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
+        //row3
+        if (currentBoard.board[2][0].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
             positionToBlock = "A2B2";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[2][0].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
+        if (currentBoard.board[2][0].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
             positionToBlock = "A2B1";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[2][2].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
+        if (currentBoard.board[2][2].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
             positionToBlock = "A2B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
 
-        //kolumn1
-        if(currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[1][0].equals(opponentSign))){
+        //column1
+        if (currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[1][0].equals(opponentSign))){
             positionToBlock = "A2B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
+        if (currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
             positionToBlock = "A1B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[1][0].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
+        if (currentBoard.board[1][0].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
             positionToBlock = "A0B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
 
-        //kolumn2
-        if(currentBoard.board[0][1].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
+        //column2
+        if (currentBoard.board[0][1].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
             positionToBlock = "A2B1";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                positionToBlock="";
             }
         }
-        if(currentBoard.board[0][1].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
+        if (currentBoard.board[0][1].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
             positionToBlock = "A1B1";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[1][1].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
+        if (currentBoard.board[1][1].equals(opponentSign) && (currentBoard.board[2][1].equals(opponentSign))){
             positionToBlock = "A0B1";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock ="";
             }
         }
 
-        //kolumn3
-        if(currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[1][2].equals(opponentSign))){
+        //column3
+        if (currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[1][2].equals(opponentSign))){
             positionToBlock = "A2B2";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock ="";
             }
         }
-        if(currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
+        if (currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
             positionToBlock = "A1B2";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[1][2].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
+        if (currentBoard.board[1][2].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
             positionToBlock = "A0B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock = "";
             }
         }
 
         //diagonal 1
-        if(currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
+        if (currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
             positionToBlock = "A2B2";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock = "";
             }
         }
-        if(currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
+        if (currentBoard.board[0][0].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
             positionToBlock = "A1B1";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock ="";
             }
         }
-        if(currentBoard.board[1][1].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
+        if (currentBoard.board[1][1].equals(opponentSign) && (currentBoard.board[2][2].equals(opponentSign))){
             positionToBlock = "A0B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock ="";
             }
         }
 
         //diagonal 2
-        if(currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
+        if (currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[1][1].equals(opponentSign))){
             positionToBlock = "A2B0";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                 positionToBlock ="";
             }
 
         }
-        if(currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
+        if (currentBoard.board[0][2].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
             positionToBlock = "A1B1";
-            if(triedPositions.contains(positionToBlock)) {
+            if (triedPositions.contains(positionToBlock)) {
                 positionToBlock="";
             }
         }
-        if(currentBoard.board[1][1].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
+        if (currentBoard.board[1][1].equals(opponentSign) && (currentBoard.board[2][0].equals(opponentSign))){
             positionToBlock = "A0B2";
-            if(triedPositions.contains(positionToBlock)){
+            if (triedPositions.contains(positionToBlock)){
                positionToBlock="";
             }
         }
-        if(!triedPositions.contains(positionToBlock)){
+        if (!triedPositions.contains(positionToBlock)){
             triedPositions.add(positionToBlock);
         }
         return positionToBlock;

@@ -81,12 +81,13 @@ public class Winner {
             }else if(currentPlayer.getName().equals("Computer")){
                 System.out.println("Sorry but the computer won this game!");
                 players.get(1).addNumberOfWins();
+            }else if (currentPlayer.getName().equals(players.get(1).getName())){
+                players.get(1).addNumberOfWins();
             }else{
                 System.out.println("Congratulations " + currentPlayer.getName() + " you won the game!");
                 players.get(0).addNumberOfWins();
             }
         }
-
 
         if(hasAWinner || draw){
             ArrayList<String> print = new ArrayList<>();

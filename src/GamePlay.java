@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class GamePlay {
-    private static final Scanner input = new Scanner(System.in);
-    private static final ArrayList<Player> players = new ArrayList<>();
+    private static final Scanner INPUT = new Scanner(System.in);
+    private static final ArrayList<Player> PLAYERS = new ArrayList<>();
     private static boolean positionFree = true;
     private static Player currentPlayer;
     private static int numberOfMatches = 0;
@@ -22,23 +22,23 @@ public class GamePlay {
     public static void setPlayers(ExtendableGamingBoard gamingBoard){
         System.out.println("Want to play with:\n1.friend\nor\n2.computer?");
         try{
-            int opponent = input.nextInt();
+            int opponent = INPUT.nextInt();
             int difficultyLevel = 0;
-            input.nextLine();
+            INPUT.nextLine();
             Player player1 = new Player();
             if(opponent == 1){
                 boolean playerInfoOk = false;
                 do{
                     Player player2 = new Player();
                     System.out.println("Enter player1's name: ");
-                    String tempInput = input.nextLine();
+                    String tempInput = INPUT.nextLine();
                     if (tempInput.equals("")){
                         System.out.println("You have to enter a name!");
                         continue;
                     }
                     player1.setName(tempInput);
                     System.out.println("Ok "+player1.getName()+", lets choose a sign X or O?");
-                    tempInput = input.nextLine().toUpperCase();
+                    tempInput = INPUT.nextLine().toUpperCase();
                     player1.setSign(tempInput);
                     if (player1.getSign().equals("X") || player1.getSign().equals("O")){
                         //This is correct, do nothing. Only way to get it to accept input even if x or o
@@ -47,7 +47,7 @@ public class GamePlay {
                         continue;
                     }
                     System.out.println("Enter player2's name: ");
-                    tempInput = input.nextLine();
+                    tempInput = INPUT.nextLine();
                     if(tempInput.equals("")){
                         System.out.println("You have to enter a name!");
                         continue;
@@ -58,8 +58,8 @@ public class GamePlay {
                     }else{
                         player2.setSign("X");
                     }
-                    players.add(player1);
-                    players.add(player2);
+                    PLAYERS.add(player1);
+                    PLAYERS.add(player2);
                     playerInfoOk = true;
                 }while(!playerInfoOk);
             }else if(opponent==2){
@@ -68,7 +68,7 @@ public class GamePlay {
                 do {
                     boolean difficultylevelOk = false;
                     System.out.println("Enter player1's name:");
-                    String tempName = input.nextLine();
+                    String tempName = INPUT.nextLine();
                     if(tempName.equalsIgnoreCase("")){
                         System.out.println("You have to enter a name.");
                         continue;
@@ -82,8 +82,8 @@ public class GamePlay {
                         }else{
                             System.out.println("Select computer difficulty level.\n1.Easy\n2.Hard");
                         }
-                        difficultyLevel = input.nextInt();
-                        input.nextLine();
+                        difficultyLevel = INPUT.nextInt();
+                        INPUT.nextLine();
                         if (difficultyLevel >2 && gamingBoard.getSize() >3){
                             System.out.println("You have to choose either 1 or 2.");
                             continue;
@@ -96,7 +96,7 @@ public class GamePlay {
                     Boolean playerSignOk = false;
                     do {
                         System.out.println("Ok " + player1.getName() + ", lets choose sign X or O:");
-                        player1.setSign(input.nextLine().toUpperCase());
+                        player1.setSign(INPUT.nextLine().toUpperCase());
                         if (player1.getSign().equals("X") || player1.getSign().equals("O")) {
                             playerSignOk = true;
                         } else {
@@ -111,8 +111,8 @@ public class GamePlay {
                     playerInfoCpuOk = true;
                 }while(!playerInfoCpuOk);
 
-                players.add(player1);
-                players.add(computer);
+                PLAYERS.add(player1);
+                PLAYERS.add(computer);
             }else{
                 System.out.println("You have to choose either 1 or 2. Please try again.");
                 setPlayers(gamingBoard);
@@ -121,19 +121,19 @@ public class GamePlay {
         //Handles exception prints message to user
         catch(Exception e){
             System.out.println("Wrong input, try again");
-            input.nextLine();
+            INPUT.nextLine();
             setPlayers(gamingBoard);
         }
     }
     //Changes player
     public static Player nextPlayer(){
         if (currentPlayer == null){
-            return players.get(0);
+            return PLAYERS.get(0);
         }
-        if(currentPlayer.getName().equals(players.get(0).getName())){
-            return players.get(1);
+        if(currentPlayer.getName().equals(PLAYERS.get(0).getName())){
+            return PLAYERS.get(1);
         }else{
-            return players.get(0);
+            return PLAYERS.get(0);
         }
     }
     //Checks if the requested position is free
@@ -159,9 +159,9 @@ public class GamePlay {
                 }
                 System.out.println(currentPlayer.getName() + " Choose your position (ex A3B2");
                 if(currentPlayer.getName().equals("Computer")){
-                    chosenPosition = currentPlayer.ComputerTurn(gamingBoard, playedTurns, players.get(0).getSign());
+                    chosenPosition = currentPlayer.ComputerTurn(gamingBoard, playedTurns, PLAYERS.get(0).getSign());
                 }else{
-                    chosenPosition = input.nextLine().toUpperCase();
+                    chosenPosition = INPUT.nextLine().toUpperCase();
                 }
                 int row = Integer.parseInt(chosenPosition.substring(chosenPosition.lastIndexOf("A")+1,chosenPosition.lastIndexOf("B")));
                 int column = Integer.parseInt(chosenPosition.substring(chosenPosition.lastIndexOf("B")+1));
@@ -174,7 +174,7 @@ public class GamePlay {
                     }
                 }
                 if (playedTurns > 4){
-                    hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer,players);
+                    hasAWinner = Winner.gameHasAWinner(gamingBoard,currentPlayer, PLAYERS);
                 }
             }catch(Exception e){
                 System.out.println("You have to enter position in correct format, ex A1B2. Please try again!");
@@ -194,7 +194,7 @@ public class GamePlay {
 
     //Clears the playerlist so it is possilble to start all over witout restarting
     public static void resetPlayers() {
-        players.clear();
+        PLAYERS.clear();
     }
 
 }
