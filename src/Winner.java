@@ -61,27 +61,33 @@ public class Winner {
                             (currentBoard.board[2][0].equals(currentPlayer.getSign()))){
                 hasAWinner = true;
             }
-        }
-        for(d=0;d< currentBoard.getSize();d++){
-            if(currentBoard.board[d][d].equals(currentPlayer.getSign())){
-                score++;
-            }else{
-                score = 0;
+        }else{
+            for(d=0;d<currentBoard.getSize();d++){
+                if(currentBoard.board[d][d].equals(currentPlayer.getSign())){
+                    score++;
+                }else{
+                    score = 0;
+                }
             }
         }
+
         if(score == currentBoard.getNumberInRowToWin()){
             hasAWinner = true;
         }
         Boolean draw = false;
-        if(hasAWinner){
+        if(!hasAWinner){
             draw = isGameDraw(currentBoard);
-            GamePlay.increaseMatchCount();
-            if(draw){
-                System.out.println("This game was a tie!");
-            }else if(currentPlayer.getName().equals("Computer")){
+        }
+
+        if(draw) {
+            System.out.println("This game was a tie!");
+        }
+        if(hasAWinner) {
+            if(currentPlayer.getName().equals("Computer")){
                 System.out.println("Sorry but the computer won this game!");
                 players.get(1).addNumberOfWins();
             }else if (currentPlayer.getName().equals(players.get(1).getName())){
+                System.out.println("Congratulations " + currentPlayer.getName() + " you won the game!");
                 players.get(1).addNumberOfWins();
             }else{
                 System.out.println("Congratulations " + currentPlayer.getName() + " you won the game!");
@@ -90,6 +96,7 @@ public class Winner {
         }
 
         if(hasAWinner || draw){
+            GamePlay.increaseMatchCount();
             ArrayList<String> print = new ArrayList<>();
             int tieRounds = GamePlay.getNumberOfMatches()-players.get(0).getNumberOfWins()-players.get(1).getNumberOfWins();
             print.add("Results after " + GamePlay.getNumberOfMatches() + " played rounds\n" + players.get(0).getName() + "\t" + players.get(1).getName()+ "\n"+

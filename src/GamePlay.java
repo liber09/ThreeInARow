@@ -183,7 +183,7 @@ public class GamePlay {
         }while((playedTurns < (gamingBoard.getSquares())) && !hasAWinner);
     }
     //Resets the game.
-    public static void resetGame(ExtendableGamingBoard gamingBoard){
+    public static void  resetGame(ExtendableGamingBoard gamingBoard){
         gamingBoard.getNewBoard(gamingBoard.getSize());
         positionFree = true;
         playedTurns = 0;
